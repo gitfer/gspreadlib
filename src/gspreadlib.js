@@ -3,8 +3,8 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
 var GSpread = function(accessToken) {
-  var authClient = new googleAuth();
-  var auth = new authClient.OAuth2();
+  const authClient = new googleAuth();
+  const auth = new authClient.OAuth2();
   auth.credentials = {
     access_token: accessToken
   };
