@@ -5,6 +5,6 @@ const getValues = require('../src/gspreadlib');
 
 test('gspread is not null', () => {
   var valuesFound = getValues(clientSecretFile, spreadsheet.id);
-  console.log("val", valuesFound)
+  console.log("values: ", valuesFound);
   expect(valuesFound).not.toBeNull();
 });

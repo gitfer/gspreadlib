@@ -3,11 +3,11 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var clientSecretFile = require('../secret_data/client_secret.json');
-var spreadsheet = require('../secret_data/spreadsheetId.json');
+var spreadsheet = process.env.SPREADSHEETID || require('../secret_data/spreadsheetId.json').id;
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'gspreadlib-token-data.json';
+var TOKEN_PATH = process.env.TOKEN_PATH || TOKEN_DIR + 'gspreadlib-token-data.json';
 
 
 const getValues = (clientSecretFile, spreadsheetId) => {
@@ -25,9 +25,9 @@ const getValues = (clientSecretFile, spreadsheetId) => {
  */
 function authorize(credentials, spreadsheetId, callback) {
   console.log("Authorizing on spreadsheetId: ", spreadsheetId)
-  var clientSecret = credentials.installed.client_secret;
-  var clientId = credentials.installed.client_id;
-  var redirectUrl = credentials.installed.redirect_uris[0];
+  var clientSecret = process.env.CLIENT_SECRET || credentials.installed.client_secret;
+  var clientId = process.env.CLIENT_ID || credentials.installed.client_id;
+  var redirectUrl = process.env.REDIRECT_URI || credentials.installed.redirect_uris[0];
   var auth = new googleAuth();
   var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
   var spreadsheetId = spreadsheetId;
