@@ -1,10 +1,25 @@
+var google = require('googleapis');
+const { listValues } = require('../src/gspreadlib');
 
-var clientSecretFile = require('../secret_data/client_secret.json');
-var spreadsheet = require('../secret_data/spreadsheetId.json');
-const getValues = require('../src/gspreadlib');
-
-test('gspread is not null', () => {
-  var valuesFound = getValues(clientSecretFile, spreadsheet.id);
-  console.log("values: ", valuesFound);
-  expect(valuesFound).not.toBeNull();
+test('gspread is not null', done => {
+	const mMock = jest.fn();
+	google.sheets = ver => {
+		return {
+			spreadsheets: {
+				values: {
+					get: function(params, cb) {
+						console.log('Calling mock...');
+						return cb(null, {
+							values: [[0, 1, 2], [99, 22, 34]]
+						});
+					}
+				}
+			}
+		};
+	};
+	var callback = function(data) {
+		expect(data).not.toBeNull();
+		done();
+	};
+	listValues(undefined, 'aaa', callback);
 });
