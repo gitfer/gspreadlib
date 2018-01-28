@@ -29,6 +29,7 @@
   },
   "scripts": {
     "start": "node src/server.js",
+    "start-clear": "CLEARSTORAGE=true node src/server.js",
     "test": "jest",
     "build": "babel src -d lib"
   },
@@ -36,11 +37,7 @@
     "type": "git",
     "url": "git+https://github.com/gitfer/gspreadlib.git"
   },
-  "keywords": [
-    "google",
-    "spreadsheets",
-    "jest"
-  ],
+  "keywords": ["google", "spreadsheets", "jest"],
   "author": "Federico Rota",
   "license": "ISC",
   "bugs": {
