@@ -46,6 +46,9 @@ try {
   spreadsheetId = process.env.SPREADSHEETID;
 }
 
+var clearStorage = process.env.CLEARSTORAGE;
+console.log('process.env.CLEARSTORAGE', clearStorage);
+
 const TOKEN_DIR = 'token_dir';
 const TOKEN_KEYNAME = 'TOKEN_GSPREADLIB';
 var localStorage = new LocalStorage('./' + TOKEN_DIR);
@@ -132,10 +135,9 @@ var authorize = function(
 };
 
 const getRedirectUrl = (credentials, loggedinUrl, cb) => {
-  var uris = [process.env.REDIRECT_URI || loggedinUrl];
-  clientSecret.installed.redirect_uris = uris;
-  console.log('clientSecret', JSON.stringify(clientSecret));
+  clientSecret.installed.redirect_uris = [loggedinUrl];
   console.log('credentials', credentials);
+  console.log('clientSecret', JSON.stringify(clientSecret));
   return authorize(clientSecret, spreadsheetId, credentials, cb);
 };
 
@@ -176,14 +178,12 @@ router.get(
 );
 
 router.get('/list', function(req, res, next) {
-  var clearStorage = process.env.CLEARSTORAGE;
-  console.log('process.env.CLEARSTORAGE', process.env.CLEARSTORAGE);
   if (clearStorage === 'true') {
     localStorage.clear();
   }
   let tokenData = getToken();
   var loggedinUrl =
-    process.env.REDIRECT_URL ||
+    process.env.REDIRECT_URI ||
     req.protocol + '://' + req.get('host') + '/loggedin';
 
   console.log('loggedinUrl', loggedinUrl);
