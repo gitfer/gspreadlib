@@ -9,8 +9,29 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var GoogleAuth = require('google-auth-library');
-var clientSecret = require('../secret_data/client_secret.json');
-var spreadsheetData = require('../secret_data/spreadsheet.json');
+var clientSecret;
+try {
+  clientSecret = require('../secret_data/client_secret.json');
+} catch (e) {
+  console.log('not found', e);
+  clientSecret = {
+    installed: {
+      client_secret: process.env.CLIENTSECRET || '',
+      client_id: process.env.CLIENT_ID || '',
+      redirect_uris: []
+    }
+  };
+}
+var spreadsheetId;
+try {
+  let spreadsheet = require('../secret_data/spreadsheet.json');
+  spreadsheetId = spreadsheet.spreadsheet;
+  console.log('spreadsheetId set to ', spreadsheetId);
+} catch (e) {
+  console.log('not found', e);
+  spreadsheetId = process.env.SPREADSHEETID;
+}
+
 var LocalStorage = require('node-localstorage').LocalStorage;
 
 var gspreadlib = require('./gspreadlib');
@@ -40,15 +61,15 @@ var getNewToken = function(oauth2Client, callback) {
 
 // Load client secrets from a local file.
 var authorize = function(
-  clientSecretFile,
+  clientSecretData,
   spreadsheetId,
   credentials,
   callback
 ) {
   console.log('Authorizing on spreadsheetId: ', spreadsheetId);
-  var clientSecret = clientSecretFile.installed.client_secret;
-  var clientId = clientSecretFile.installed.client_id;
-  var redirectUrl = clientSecretFile.installed.redirect_uris[0];
+  var clientSecret = clientSecretData.installed.client_secret;
+  var clientId = clientSecretData.installed.client_id;
+  var redirectUrl = clientSecretData.installed.redirect_uris[0];
   var auth = new GoogleAuth();
   oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
@@ -64,21 +85,11 @@ var authorize = function(
 };
 
 const getRedirectUrl = (credentials, loggedinUrl, cb) => {
-  var spreadsheetId = process.env.SPREADSHEETID || spreadsheetData.spreadsheet;
   var uris = [process.env.REDIRECT_URI || loggedinUrl];
-
-  var clientSecretFile = {
-    installed: {
-      client_secret:
-        process.env.CLIENTSECRET || clientSecret.installed.client_secret,
-      client_id: process.env.CLIENT_ID || clientSecret.installed.client_id,
-      redirect_uris: uris
-    }
-  };
-  console.log('clientSecret', JSON.stringify(clientSecretFile));
-  console.log('spreadsheetData', JSON.stringify(spreadsheetData));
+  clientSecret.installed.redirect_uris = uris;
+  console.log('clientSecret', JSON.stringify(clientSecret));
   console.log('credentials', credentials);
-  return authorize(clientSecretFile, spreadsheetId, credentials, cb);
+  return authorize(clientSecret, spreadsheetId, credentials, cb);
 };
 
 /**
@@ -92,7 +103,7 @@ var storeToken = function(token) {
 var getToken = () => localStorage.getItem(TOKEN_KEYNAME);
 
 const _renderValues = (token, cb) => {
-  var spreadsheetId = process.env.SPREADSHEETID || spreadsheetData.spreadsheet;
+  var spreadsheetId = process.env.SPREADSHEETID;
 
   if (_.isNil(spreadsheetId)) {
     console.log('No spreadsheetId');
