@@ -9,15 +9,29 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var GoogleAuth = require('google-auth-library');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var LocalStorage = require('node-localstorage').LocalStorage;
+var gspreadlib = require('./gspreadlib');
+
 var clientSecret;
 try {
-  clientSecret = require('../secret_data/client_secret.json');
+  let clientSecretFile = require('../secret_data/client_secret.json');
+
+  clientSecret = {
+    installed: {
+      client_id: process.env.CLIENT_ID || clientSecretFile.web.client_id,
+      client_secret:
+        process.env.CLIENTSECRET || clientSecretFile.web.client_secret,
+      redirect_uris: clientSecretFile.web.redirect_uris
+    }
+  };
 } catch (e) {
   console.log('not found', e);
   clientSecret = {
     installed: {
-      client_secret: process.env.CLIENTSECRET || '',
       client_id: process.env.CLIENT_ID || '',
+      client_secret: process.env.CLIENTSECRET || '',
       redirect_uris: []
     }
   };
@@ -32,14 +46,47 @@ try {
   spreadsheetId = process.env.SPREADSHEETID;
 }
 
-var LocalStorage = require('node-localstorage').LocalStorage;
-
-var gspreadlib = require('./gspreadlib');
-
 const TOKEN_DIR = 'token_dir';
 const TOKEN_KEYNAME = 'TOKEN_GSPREADLIB';
 var localStorage = new LocalStorage('./' + TOKEN_DIR);
 var oauth2Client;
+
+// Use the GoogleStrategy within Passport.
+//   Strategies in passport require a `verify` function, which accept
+//   credentials (in this case, a token, tokenSecret, and Google profile), and
+//   invoke a callback with a user object.
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: clientSecret.installed.client_id,
+      clientSecret: clientSecret.installed.client_secret,
+      callbackURL: '/auth/google/callback'
+    },
+    function(token, tokenSecret, profile, done) {
+      // console.log('token, tokenSecret, profile,', token, tokenSecret, profile);
+      if (
+        profile.id === '104340162277990636852' ||
+        profile.id === '116744501636186001854'
+      ) {
+        return done(null, {
+          id: profile.id,
+          displayName: profile.displayName,
+          name: profile.name
+        });
+      }
+      // User.findOrCreate({ googleId: profile.id }, function(err, user) {
+      //   return done(err, user);
+      // });
+    }
+  )
+);
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 /**
  * Get and store new token after prompting for user authorization, and then
@@ -66,7 +113,7 @@ var authorize = function(
   credentials,
   callback
 ) {
-  console.log('Authorizing on spreadsheetId: ', spreadsheetId);
+  // console.log('Authorizing on spreadsheetId: ', spreadsheetId);
   var clientSecret = clientSecretData.installed.client_secret;
   var clientId = clientSecretData.installed.client_id;
   var redirectUrl = clientSecretData.installed.redirect_uris[0];
@@ -102,17 +149,33 @@ var storeToken = function(token) {
 
 var getToken = () => localStorage.getItem(TOKEN_KEYNAME);
 
-const _renderValues = (token, cb) => {
-  var spreadsheetId = process.env.SPREADSHEETID;
+// GET /auth/google
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Google authentication will involve
+//   redirecting the user to google.com.  After authorization, Google
+//   will redirect the user back to this application at /auth/google/callback
+router.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/plus.login']
+  })
+);
 
-  if (_.isNil(spreadsheetId)) {
-    console.log('No spreadsheetId');
+// GET /auth/google/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    console.log('loggedin with google');
+    res.redirect('/list');
   }
-  oauth2Client.credentials = token;
-  gspreadlib.listValues(oauth2Client, spreadsheetId, cb);
-};
+);
 
-router.get('/', function(req, res, next) {
+router.get('/list', function(req, res, next) {
   var clearStorage = process.env.CLEARSTORAGE;
   console.log('process.env.CLEARSTORAGE', process.env.CLEARSTORAGE);
   if (clearStorage === 'true') {
@@ -122,6 +185,8 @@ router.get('/', function(req, res, next) {
   var loggedinUrl =
     process.env.REDIRECT_URL ||
     req.protocol + '://' + req.get('host') + '/loggedin';
+
+  console.log('loggedinUrl', loggedinUrl);
 
   if (!_.isNil(tokenData)) {
     console.log('Found tokenData', JSON.parse(tokenData));
@@ -136,8 +201,19 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/', function(req, res, next) {
+  res.render('index');
+});
+
 router.get('/loggedin', function(req, res, next) {
   let code = req.query.code;
+  const _renderValues = (token, cb) => {
+    if (_.isNil(spreadsheetId)) {
+      console.log('No spreadsheetId');
+    }
+    oauth2Client.credentials = token;
+    gspreadlib.listValues(oauth2Client, spreadsheetId, cb);
+  };
 
   oauth2Client.getToken(code, function(err, token) {
     if (err) {

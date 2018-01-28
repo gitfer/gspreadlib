@@ -2,7 +2,7 @@ var google = require('googleapis');
 
 function listValues(auth, spreadsheetId, callback) {
   var sheets = google.sheets('v4');
-  console.log('Calling googleapis in order to list values...');
+  console.log('Calling googleapis in order to list values...spreadsheetId:' + spreadsheetId);
   sheets.spreadsheets.values.get(
     {
       auth: auth,
