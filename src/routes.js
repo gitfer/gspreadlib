@@ -100,7 +100,7 @@ passport.deserializeUser(function(user, done) {
  *     client.
  */
 var getNewToken = function(oauth2Client, callback) {
-  var SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+  var SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
   var authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES
@@ -226,4 +226,22 @@ router.get('/loggedin', function(req, res, next) {
     });
   });
 });
+
+router.get('/insertValues', function(req, res, next) {
+  let tokenData = getToken();
+  getRedirectUrl(JSON.parse(tokenData), '', data => {
+    var startRowIndex = 2;
+    var sheetId = 1334421910;
+    gspreadlib.insertRow(
+      oauth2Client,
+      spreadsheetId,
+      sheetId,
+      startRowIndex,
+      function(err, response) {
+        console.log(err);
+      }
+    );
+  });
+});
+
 module.exports = router;
