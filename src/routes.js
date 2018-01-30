@@ -99,7 +99,7 @@ passport.deserializeUser(function(user, done) {
  * @param {getEventsCallback} callback The callback to call with the authorized
  *     client.
  */
-var getNewToken = function(oauth2Client, callback) {
+var getNewToken = function(oauth2Client) {
   var SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
   var authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -109,14 +109,7 @@ var getNewToken = function(oauth2Client, callback) {
   return authUrl;
 };
 
-// Load client secrets from a local file.
-var authorize = function(
-  clientSecretData,
-  spreadsheetId,
-  credentials,
-  callback
-) {
-  // console.log('Authorizing on spreadsheetId: ', spreadsheetId);
+var authorize = function(clientSecretData, spreadsheetId, credentials) {
   var clientSecret = clientSecretData.installed.client_secret;
   var clientId = clientSecretData.installed.client_id;
   var redirectUrl = clientSecretData.installed.redirect_uris[0];
@@ -125,25 +118,22 @@ var authorize = function(
 
   if (_.isNil(credentials)) {
     console.log('no credentials');
-    var authUrl = getNewToken(oauth2Client, callback);
+    var authUrl = getNewToken(oauth2Client);
     console.log('authUrl', authUrl);
-    return callback(authUrl);
+    return Promise.resolve(authUrl);
   }
   oauth2Client.credentials = credentials;
   console.log('calling callback..."');
-  return gspreadlib.listValues(oauth2Client, spreadsheetId, callback);
+  return gspreadlib.listValues({ auth: oauth2Client, spreadsheetId });
 };
 
-const getRedirectUrl = (credentials, loggedinUrl, cb) => {
+const getRedirectUrl = (credentials, loggedinUrl) => {
   clientSecret.installed.redirect_uris = [loggedinUrl];
   console.log('credentials', credentials);
   console.log('clientSecret', JSON.stringify(clientSecret));
-  return authorize(clientSecret, spreadsheetId, credentials, cb);
+  return authorize(clientSecret, spreadsheetId, credentials);
 };
 
-/**
- * Store token to disk be used in later program executions.
- */
 var storeToken = function(token) {
   console.log('Setting token in localStorage', JSON.stringify(token));
   localStorage.setItem(TOKEN_KEYNAME, JSON.stringify(token));
@@ -190,15 +180,17 @@ router.get('/list', function(req, res, next) {
 
   if (!_.isNil(tokenData)) {
     console.log('Found tokenData', JSON.parse(tokenData));
-    getRedirectUrl(JSON.parse(tokenData), loggedinUrl, data =>
-      res.render('listValues', { listValues: data })
-    );
-  } else {
-    getRedirectUrl(undefined, loggedinUrl, authUrl => {
+    return getRedirectUrl(JSON.parse(tokenData), loggedinUrl)
+      .then(data => res.render('listValues', { listValues: data }))
+      .catch(err => console.log(err));
+  }
+
+  return getRedirectUrl(undefined, loggedinUrl)
+    .then(authUrl => {
       console.log('Redirecting to authUrl', authUrl);
       res.redirect(authUrl);
-    });
-  }
+    })
+    .catch(err => console.log(err));
 });
 
 router.get('/', function(req, res, next) {
@@ -207,40 +199,65 @@ router.get('/', function(req, res, next) {
 
 router.get('/loggedin', function(req, res, next) {
   let code = req.query.code;
-  const _renderValues = (token, cb) => {
-    if (_.isNil(spreadsheetId)) {
-      console.log('No spreadsheetId');
-    }
-    oauth2Client.credentials = token;
-    gspreadlib.listValues(oauth2Client, spreadsheetId, cb);
-  };
 
+  let tokenData = getToken();
+  if (tokenData) {
+    return Promise.all([
+      gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId }),
+      gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
+    ])
+      .then(([spreadsheet, values]) => {
+        res.render('listValues', {
+          info: {
+            spreadsheet: spreadsheet,
+            listValues: values
+          }
+        });
+      })
+      .catch(err => console.log(err));
+  }
   oauth2Client.getToken(code, function(err, token) {
     if (err) {
       console.log('Error while trying to retrieve access token', err);
       return;
     }
     storeToken(token);
-    _renderValues(token, values => {
-      res.render('listValues', { listValues: values });
+    oauth2Client.credentials = token;
+    return Promise.all([
+      gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId }),
+      gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
+    ]).then(([spreadsheet, values]) => {
+      res.render('listValues', {
+        info: {
+          spreadsheet: spreadsheet,
+          listValues: values
+        }
+      });
     });
   });
 });
 
-router.get('/insertValues', function(req, res, next) {
+router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
+  req,
+  res,
+  next
+) {
   let tokenData = getToken();
-  getRedirectUrl(JSON.parse(tokenData), '', data => {
-    var startRowIndex = 2;
-    var sheetId = 1334421910;
-    gspreadlib.insertRow(
-      oauth2Client,
-      spreadsheetId,
-      sheetId,
-      startRowIndex,
-      function(err, response) {
-        console.log(err);
-      }
+  getRedirectUrl(JSON.parse(tokenData), '').then(data => {
+    console.log('req.params.sheetId', parseInt(req.params.sheetId));
+    console.log(
+      'req.params.startRowIndex',
+      parseInt(req.params.startRowIndex) + 2
     );
+    gspreadlib
+      .insertRow({
+        auth: oauth2Client,
+        spreadsheetId,
+        sheetId: parseInt(req.params.sheetId),
+        startRowIndex: parseInt(req.params.startRowIndex) + 3
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => console.log(err));
   });
 });
 

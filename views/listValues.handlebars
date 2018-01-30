@@ -1,8 +1,17 @@
 <div class="mdl-grid">
   <section class="mdl-cell mdl-cell--8-col relative">
-  	<a href="/insertValues">Insert values</a>
-    {{#each listValues}}
-      <div><span style="width: 130px;  display: inline-block;">{{data}}</span>  <span style="width: 130px; display: inline-block;">{{valore}}</span> <span>{{causale}}</span></div>
+  	<h1>{{info.spreadsheet.properties.title}}</h1>
+    
+    {{#each info.spreadsheet.sheets}}
+  	<h2>{{properties.title}} ({{properties.sheetId}})</h2>
+    {{/each}}
+    {{#each info.listValues}}
+      <div>
+  		<a href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">+</a>
+      	<span style="width: 130px;  display: inline-block;">{{data}}</span>  
+      	<span style="width: 130px; display: inline-block;">{{valore}}</span> 
+      	<span>{{causale}}</span>
+      </div>
     {{/each}}
   </section>
 </div>
