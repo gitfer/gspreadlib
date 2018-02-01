@@ -38,7 +38,7 @@
     "start-clear": "CLEARSTORAGE=true node src/server.js",
     "test": "jest",
     "build": "babel src -d lib",
-    "webpack-build": "npx webpack --config webpack.config.js"
+    "webpack-build": "webpack"
   },
   "repository": {
     "type": "git",
