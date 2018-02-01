@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -35,17 +37,14 @@
     "start": "node src/server.js",
     "start-clear": "CLEARSTORAGE=true node src/server.js",
     "test": "jest",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "webpack-build": "npx webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gitfer/gspreadlib.git"
   },
-  "keywords": [
-    "google",
-    "spreadsheets",
-    "jest"
-  ],
+  "keywords": ["google", "spreadsheets", "jest"],
   "author": "Federico Rota",
   "license": "ISC",
   "bugs": {
