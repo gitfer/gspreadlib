@@ -63,9 +63,10 @@ passport.use(
     {
       clientID: clientSecret.installed.client_id,
       clientSecret: clientSecret.installed.client_secret,
-      callbackURL: '/auth/google/callback'
+      callbackURL: '/auth/google/callback',
+      passReqToCallback: true
     },
-    function(token, tokenSecret, profile, done) {
+    function(request, token, tokenSecret, profile, done) {
       // console.log('token, tokenSecret, profile,', token, tokenSecret, profile);
       if (
         profile.id === '104340162277990636852' ||
@@ -84,10 +85,12 @@ passport.use(
   )
 );
 passport.serializeUser(function(user, done) {
+  console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
+  console.log('deserializeUser', user);
   done(null, user);
 });
 
@@ -162,12 +165,20 @@ router.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
-    console.log('loggedin with google');
+    console.log('loggedin with google', req.user);
     res.redirect('/list');
   }
 );
 
-router.get('/list', function(req, res, next) {
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    console.log('Request is authenticated');
+    return next();
+  }
+  res.redirect('/');
+}
+
+router.get('/list', ensureAuthenticated, function(req, res, next) {
   if (clearStorage === 'true') {
     localStorage.clear();
   }
@@ -191,6 +202,11 @@ router.get('/list', function(req, res, next) {
       res.redirect(authUrl);
     })
     .catch(err => console.log(err));
+});
+
+router.get('/profile', ensureAuthenticated, function(req, res) {
+  console.log('user', req.user);
+  res.send({ user: req.user });
 });
 
 router.get('/', function(req, res, next) {

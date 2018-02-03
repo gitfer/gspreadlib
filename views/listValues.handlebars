@@ -1,17 +1,27 @@
+<div id="root">
+  
+</div>
+
 <div class="mdl-grid">
   <section class="mdl-cell mdl-cell--8-col relative">
-  	<h1>{{info.spreadsheet.properties.title}}</h1>
+  	<h2>{{info.spreadsheet.properties.title}}</h2>
     
     {{#each info.spreadsheet.sheets}}
-  	<h2>{{properties.title}} ({{properties.sheetId}})</h2>
+    <div style="margin-bottom: 1em;">
+      <h3 style="display: inline;">{{properties.title}}</h3>
+      <small>({{properties.sheetId}})</small>  
+    </div>
+  	
+   
     {{/each}}
     {{#each info.listValues}}
       <div>
   		<a href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">+</a>
-      	<span style="width: 130px;  display: inline-block;">{{data}}</span>  
+      	<span style="width: 130px; display: inline-block;">{{data}}</span>  
       	<span style="width: 130px; display: inline-block;">{{valore}}</span> 
       	<span>{{causale}}</span>
       </div>
     {{/each}}
   </section>
 </div>
+<script type="text/javascript" src="/bundle.js" ></script>
