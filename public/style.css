@@ -45,3 +45,29 @@
 .loginBtn--google:focus {
 	background: #e74b37;
 }
+
+
+
+.button {
+  background-color: #268AE9;  
+  border-radius: 5px;
+  color: white;
+  padding: .2em;
+  text-decoration: none;
+}
+
+
+.button:hover {
+  background-color: #62C5FF;  
+  border-radius: 5px;
+  color: white;
+  padding: .4em;
+  text-decoration: none;
+}
+
+.row {
+	padding-top: 6.4px;
+	padding-bottom: 6.4px;
+}
+.row:nth-child(even) {background: #C8D8FB}
+.row:nth-child(odd) {background: #FFF}
