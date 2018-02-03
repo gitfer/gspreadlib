@@ -101,4 +101,39 @@ const insertRow = ({
     );
   });
 
-module.exports = { getSpreadSheet, listValues, insertRow };
+const deleteRow = ({
+  auth = undefined,
+  spreadsheetId = undefined,
+  sheetId = undefined,
+  startRowIndex = 0
+}) =>
+  new Promise((resolve, reject) => {
+    sheets.spreadsheets.batchUpdate(
+      {
+        auth: auth,
+        spreadsheetId: spreadsheetId,
+        resource: {
+          requests: [
+            {
+              deleteDimension: {
+                range: {
+                  sheetId: sheetId,
+                  dimension: 'ROWS',
+                  startIndex: startRowIndex - 1,
+                  endIndex: startRowIndex
+                }
+              }
+            }
+          ]
+        }
+      },
+      function(err, response) {
+        if (err) {
+          reject(err);
+        }
+        resolve(response);
+      }
+    );
+  });
+
+module.exports = { getSpreadSheet, listValues, insertRow, deleteRow };

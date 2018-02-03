@@ -18283,13 +18283,18 @@ var _Profile = __webpack_require__(28);
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
+var _Record = __webpack_require__(30);
+
+var _Record2 = _interopRequireDefault(_Record);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App(props) {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(_Profile2.default, null)
+    _react2.default.createElement(_Profile2.default, null),
+    _react2.default.createElement(_Record2.default, null)
   );
 }
 exports.default = App;
@@ -28734,6 +28739,121 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Record = function (_React$Component) {
+  _inherits(Record, _React$Component);
+
+  function Record(props) {
+    _classCallCheck(this, Record);
+
+    var _this = _possibleConstructorReturn(this, (Record.__proto__ || Object.getPrototypeOf(Record)).call(this, props));
+
+    var dateNow = new Date('1982-12-29').toISOString().slice(0, 10);
+    _this.state = { data: dateNow, valore: 10, causale: 'Benzina' };
+    _this.handleData = _this.handleData.bind(_this);
+    _this.handleValore = _this.handleValore.bind(_this);
+    _this.handleCausale = _this.handleCausale.bind(_this);
+    _this.submit = _this.submit.bind(_this);
+    return _this;
+  }
+
+  _createClass(Record, [{
+    key: 'handleData',
+    value: function handleData(event) {
+      this.setState({ data: event.target.value });
+    }
+  }, {
+    key: 'handleValore',
+    value: function handleValore(event) {
+      this.setState({ valore: event.target.value });
+    }
+  }, {
+    key: 'handleCausale',
+    value: function handleCausale(event) {
+      this.setState({ causale: event.target.value });
+    }
+  }, {
+    key: 'submit',
+    value: function submit() {
+      // This works because arrow funcs adopt the this binding of the enclosing scope.
+      console.log(this.state);
+      var data = this.state.data.slice(8, 10) + '/' + this.state.data.slice(5, 7) + '/' + this.state.data.slice(0, 4);
+      var valore = parseFloat(this.state.valore) || 0;
+      if (valore <= 0) {
+        alert('Inserisci un valore');
+      }
+      var causale = this.state.causale || '';
+      if (causale === '') {
+        alert('Inserisci una causale');
+      }
+      console.log({ data: data, valore: valore, causale: causale });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'form',
+        null,
+        _react2.default.createElement(
+          'label',
+          null,
+          'Data'
+        ),
+        _react2.default.createElement('input', { type: 'date', placeholder: 'DD-MM-YYYY', required: true, pattern: '[0-9]{2}-[0-9]{2}-[0-9]{4}', value: this.state.data, onChange: this.handleData }),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Valore'
+        ),
+        _react2.default.createElement('input', { type: 'number', min: '0', step: '0.01', value: this.state.valore, onChange: this.handleValore }),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Causale'
+        ),
+        _react2.default.createElement('input', { type: 'text', value: this.state.causale, onChange: this.handleCausale }),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', { 'class': 'button', type: 'submit', value: 'Inserisci', onClick: function onClick() {
+              return _this2.submit();
+            } })
+        )
+      );
+    }
+  }]);
+
+  return Record;
+}(_react2.default.Component);
+
+exports.default = Record;
 
 /***/ })
 /******/ ]);

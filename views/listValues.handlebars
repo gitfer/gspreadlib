@@ -16,7 +16,7 @@
     {{/each}}
     {{#each info.listValues}}
       <div class="row">
-      <a class="button" >&#10005;</a>
+      <a class="button" href="/delete/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10005;</a>
   		<a class="button" href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10133;</a>
       	<span style="width: 130px; display: inline-block;">{{data}}</span>  
       	<span style="width: 130px; display: inline-block;">{{valore}}</span> 

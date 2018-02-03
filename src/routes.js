@@ -1,10 +1,4 @@
 'use strict';
-
-// TODO:
-// integra mongo
-// deploya su heroku
-// crea template
-
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
@@ -267,6 +261,30 @@ router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
     );
     gspreadlib
       .insertRow({
+        auth: oauth2Client,
+        spreadsheetId,
+        sheetId: parseInt(req.params.sheetId),
+        startRowIndex: parseInt(req.params.startRowIndex) + 3
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => console.log(err));
+  });
+});
+
+router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
+  req,
+  res,
+  next
+) {
+  let tokenData = getToken();
+  getRedirectUrl(JSON.parse(tokenData), '').then(data => {
+    console.log('req.params.sheetId', parseInt(req.params.sheetId));
+    console.log(
+      'req.params.startRowIndex',
+      parseInt(req.params.startRowIndex) + 2
+    );
+    gspreadlib
+      .deleteRow({
         auth: oauth2Client,
         spreadsheetId,
         sheetId: parseInt(req.params.sheetId),
