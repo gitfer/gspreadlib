@@ -3,7 +3,7 @@ import React from 'react';
 export default class Record extends React.Component {
   constructor(props) {
     super(props);
-    var dateNow = new Date('1982-12-29').toISOString().slice(0, 10);
+    var dateNow = new Date('2018-01-01').toISOString().slice(0, 10);
     this.state = { data: dateNow, valore: 10, causale: 'Benzina' };
     this.handleData = this.handleData.bind(this);
     this.handleValore = this.handleValore.bind(this);
@@ -36,17 +36,28 @@ export default class Record extends React.Component {
       alert('Inserisci una causale');
     }
     console.log({data, valore, causale});
-  };
+    $.post('/insertRecord/' + $('#sheetId').text(), {data, valore, causale})
+      .catch(function(err) {
+        console.log(err);
+        alert('Error: ' + err.responseText);
+      });
+  }
 
   render() {
+    var formFieldsStyle = {
+      display: 'flex',
+      flexDirection: 'column'
+    };
     return (
       <form>
-        <label>Data</label>
-        <input type="date" placeholder="DD-MM-YYYY" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" value={this.state.data} onChange={this.handleData} />
-        <label>Valore</label>
-        <input type="number" min="0" step="0.01" value={this.state.valore} onChange={this.handleValore} />
-        <label>Causale</label>
-        <input type="text" value={this.state.causale} onChange={this.handleCausale} />
+        <div style={formFieldsStyle}>
+          <label>Data</label>
+          <input type="date" placeholder="DD-MM-YYYY" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" value={this.state.data} onChange={this.handleData} />
+          <label>Valore</label>
+          <input type="number" min="0" step="0.01" value={this.state.valore} onChange={this.handleValore} />
+          <label>Causale</label>
+          <input type="text" value={this.state.causale} onChange={this.handleCausale} />
+        </div>
         <div>
           <input class="button" type="submit" value="Inserisci" onClick={() => this.submit()} />
         </div>

@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
+var accounting = require('accounting');
 var GoogleAuth = require('google-auth-library');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -79,12 +80,12 @@ passport.use(
   )
 );
 passport.serializeUser(function(user, done) {
-  console.log('serializeUser', user);
+  // console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log('deserializeUser', user);
+  // console.log('deserializeUser', user);
   done(null, user);
 });
 
@@ -295,4 +296,24 @@ router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
   });
 });
 
+router.post('/insertRecord/:sheetId', function(req, res) {
+  var data = req.body.data;
+  var valore = req.body.valore;
+  var causale = req.body.causale;
+  var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ','); ;
+  console.log(data, valore, valoreStringa, causale);
+  gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
+    .then(values => {
+      if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
+        res.status(400).send('Esiste già un valore con quella data e quel valore');
+      } else {
+        gspreadlib.insertRecord({ auth: oauth2Client, spreadsheetId, values: [[data, valoreStringa, causale]] })
+          .then(() => gspreadlib.sort({ auth: oauth2Client, spreadsheetId, sheetId: parseInt(req.params.sheetId) }))
+          .then(() => res.status(200))
+          .catch((err) => {
+            res.status(400).send(err);
+          });
+      }
+    });
+});
 module.exports = router;

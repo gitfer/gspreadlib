@@ -50,7 +50,8 @@ const listValues = ({
           console.log('Data found:');
           for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            console.log('%s, %s, %s', row[0], row[1], row[2]);
+
+            // console.log('%s, %s, %s', row[0], row[1], row[2]);
           }
 
           rows = rows.map(row => ({
@@ -136,4 +137,73 @@ const deleteRow = ({
     );
   });
 
-module.exports = { getSpreadSheet, listValues, insertRow, deleteRow };
+const insertRecord = ({
+  auth,
+  spreadsheetId,
+  range = 'A3:C3',
+  values = []
+}) =>
+  new Promise((resolve, reject) => {
+    sheets.spreadsheets.values.append(
+      {
+        auth: auth,
+        spreadsheetId: spreadsheetId,
+        insertDataOption: 'INSERT_ROWS',
+        includeValuesInResponse: true,
+        range: range,
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          values: values
+        }
+      },
+      function(err, response) {
+        if (err) {
+          reject(err);
+        }
+        resolve(response);
+      }
+    );
+  });
+
+const sort = ({
+  auth,
+  spreadsheetId,
+  sheetId
+}) =>
+  new Promise((resolve, reject) => {
+    sheets.spreadsheets.batchUpdate(
+      {
+        auth: auth,
+        spreadsheetId: spreadsheetId,
+        resource: {
+          requests: [
+            {
+              sortRange: {
+                range: {
+                  sheetId: sheetId,
+                  startRowIndex: 2,
+                  endRowIndex: 100000000,
+                  startColumnIndex: 0,
+                  endColumnIndex: 3
+                },
+                sortSpecs: [
+                  {
+                    dimensionIndex: 0,
+                    sortOrder: 'ASCENDING'
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      function(err, response) {
+        if (err) {
+          reject(err);
+        }
+        resolve(response);
+      }
+    );
+  });
+
+module.exports = { getSpreadSheet, listValues, insertRow, deleteRow, insertRecord, sort };

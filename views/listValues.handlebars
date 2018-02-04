@@ -9,7 +9,7 @@
     {{#each info.spreadsheet.sheets}}
     <div style="margin-bottom: 1em;">
       <h3 style="display: inline;">{{properties.title}}</h3>
-      <small>({{properties.sheetId}})</small>  
+      (<small id="sheetId">{{properties.sheetId}}</small>) 
     </div>
   	
    
@@ -17,8 +17,8 @@
     {{#each info.listValues}}
       <div class="row">
       <a class="button" href="/delete/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10005;</a>
-  		<a class="button" href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10133;</a>
-      	<span style="width: 130px; display: inline-block;">{{data}}</span>  
+<!--   		<a class="button" href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10133;</a>
+  -->     	<span style="width: 130px; display: inline-block;">{{data}}</span>  
       	<span style="width: 130px; display: inline-block;">{{valore}}</span> 
       	<span>{{causale}}</span>
       </div>
