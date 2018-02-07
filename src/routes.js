@@ -199,6 +199,19 @@ router.get('/list', ensureAuthenticated, function(req, res, next) {
     .catch(err => console.log(err));
 });
 
+router.get('/spreadsheets', ensureAuthenticated, function(req, res, next) {
+  return Promise.all([
+    gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId }),
+    gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
+  ])
+    .then(([spreadsheet, values]) => {
+      res.send({
+        spreadsheet: spreadsheet,
+        values: values
+      });
+    });
+});
+
 router.get('/profile', ensureAuthenticated, function(req, res) {
   console.log('user', req.user);
   res.send({ user: req.user });
