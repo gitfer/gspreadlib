@@ -201,12 +201,21 @@ router.get('/list', ensureAuthenticated, function(req, res, next) {
 
 router.get('/spreadsheets', ensureAuthenticated, function(req, res, next) {
   return Promise.all([
-    gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId }),
+    gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId, ranges: [] }),
     gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
   ])
     .then(([spreadsheet, values]) => {
       res.send({
         spreadsheet: spreadsheet,
+        values: values
+      });
+    });
+});
+
+router.get('/sheets/:sheetName', ensureAuthenticated, function(req, res, next) {
+  return gspreadlib.listValues({ auth: oauth2Client, spreadsheetId, sheetName: req.params.sheetName })
+    .then(values => {
+      res.send({
         values: values
       });
     });

@@ -1,28 +1,24 @@
-<div id="root">
-  
-</div>
-
 <div class="mdl-grid">
   <section class="mdl-cell mdl-cell--8-col relative">
   	<h2>{{info.spreadsheet.properties.title}}</h2>
     
-    {{#each info.spreadsheet.sheets}}
+    <div id="root">
+    </div>
+   
+<!--     {{#each info.spreadsheet.sheets}}
     <div style="margin-bottom: 1em;">
       <h3 style="display: inline;">{{properties.title}}</h3>
       (<small id="sheetId">{{properties.sheetId}}</small>) 
     </div>
-  	
-   
     {{/each}}
     {{#each info.listValues}}
       <div class="row">
       <a class="button" href="/delete/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10005;</a>
-<!--   		<a class="button" href="/insertValues/{{../info.spreadsheet.sheets.0.properties.sheetId}}/rowIndex/{{@index}}">&#10133;</a>
-  -->     	<span style="width: 130px; display: inline-block;">{{data}}</span>  
+       	<span style="width: 130px; display: inline-block;">{{data}}</span>  
       	<span style="width: 130px; display: inline-block;">{{valore}}</span> 
       	<span>{{causale}}</span>
       </div>
-    {{/each}}
+    {{/each}} -->
   </section>
 </div>
 <script type="text/javascript" src="/bundle.js" ></script>

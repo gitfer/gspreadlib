@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Record extends React.Component {
+export default class InputSheetRecord extends React.Component {
   constructor(props) {
     super(props);
     var dateNow = new Date('2018-01-01').toISOString().slice(0, 10);

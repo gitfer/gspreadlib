@@ -26,6 +26,7 @@ const getSpreadSheet = ({
 const listValues = ({
   auth = undefined,
   spreadsheetId = undefined,
+  sheetName = '',
   range = 'A3:C',
   majorDimension = 'ROWS'
 }) =>
@@ -34,7 +35,7 @@ const listValues = ({
       {
         auth: auth,
         spreadsheetId: spreadsheetId,
-        range: range,
+        range: sheetName === '' ? range : sheetName + '!' + range,
         majorDimension: majorDimension
       },
       function(err, response) {

@@ -4,7 +4,7 @@ export default class Profile extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {utente: 'init'};
+    this.state = {utente: 'Anonymous'};
   }
 
   componentDidMount() {
