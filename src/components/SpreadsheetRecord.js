@@ -29,8 +29,8 @@ export default class SpreadsheetRecord extends React.Component {
     return (
       <div className="row">
         <a className="button" href={url}>&#10005;</a>&nbsp;
-        <span style={{width: '130px', display: 'inline-block'}}>{this.props.record.data}</span>
-        <span style={{width: '130px', display: 'inline-block'}}>{this.props.record.valore}</span>
+        <span style={{width: '85px', textAlign: 'center', display: 'inline-block'}}>{this.props.record.data}</span>
+        <span style={{width: '85px', textAlign: 'center', display: 'inline-block'}}>{this.props.record.valore}</span>
         <span style={this.formatCell(this.props.record.causale)}>{this.props.record.causale}</span>
       </div>
     );
