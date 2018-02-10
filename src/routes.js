@@ -12,7 +12,6 @@ var gspreadlib = require('./gspreadlib');
 var clientSecret;
 try {
   let clientSecretFile = require('../secret_data/client_secret.json');
-
   clientSecret = {
     installed: {
       client_id: process.env.CLIENT_ID || clientSecretFile.web.client_id,
@@ -270,7 +269,7 @@ router.get('/loggedin', function(req, res, next) {
   });
 });
 
-router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
+/* router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
   req,
   res,
   next
@@ -293,7 +292,7 @@ router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
       .catch(err => console.log(err));
   });
 });
-
+*/
 router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
   req,
   res,
@@ -318,21 +317,23 @@ router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
   });
 });
 
-router.post('/insertRecord/:sheetId', function(req, res) {
+router.post('/insertRecord', function(req, res) {
+  var sheetName = req.body.sheetName;
+  var sheetId = req.body.sheetId;
   var data = req.body.data;
   var valore = req.body.valore;
   var causale = req.body.causale;
   var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ','); ;
-  console.log(data, valore, valoreStringa, causale);
+  console.log('insertRecord', sheetName, sheetId, data, valoreStringa, causale);
   gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
     .then(values => {
       if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
         res.status(400).send('Esiste già un valore con quella data e quel valore');
       } else {
-        gspreadlib.insertRecord({ auth: oauth2Client, spreadsheetId, values: [[data, valoreStringa, causale]] })
-          .then(() => gspreadlib.sort({ auth: oauth2Client, spreadsheetId, sheetId: parseInt(req.params.sheetId) }))
+        gspreadlib.insertRecord({ auth: oauth2Client, spreadsheetId, sheetName: sheetName, values: [[data, valoreStringa, causale]] })
+          .then(() => gspreadlib.sort({ auth: oauth2Client, spreadsheetId, sheetId: parseInt(sheetId) }))
           .then(() => res.status(200))
-          .catch((err) => {
+          .catch(err => {
             res.status(400).send(err);
           });
       }

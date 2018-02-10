@@ -1,5 +1,6 @@
 import React from 'react';
 import Sheet from './Sheet';
+import InputSheetRecord from './InputSheetRecord';
 
 export default class Spreadsheet extends React.Component {
   constructor(props) {
@@ -21,22 +22,24 @@ export default class Spreadsheet extends React.Component {
   }
 
   render() {
+    const spreadsheetTitle = this.props.spreadsheetTitle;
     const sheets = this.props.sheets;
     const records = this.props.records;
 
     return (
       <div>
+        <h2>{spreadsheetTitle}</h2>
         <div>
           <select value={this.state.selectedSheet.properties.sheetId} onChange={this.handleChangeSheet} >
             {
               sheets.map((sheet, index) => (<option key={sheet.properties.sheetId} value={sheet.properties.sheetId}>{sheet.properties.title}</option>))
             }
           </select>
-          <small>({this.state.selectedSheet.properties.sheetId})</small>
         </div>
 
+        <InputSheetRecord sheet={this.state.selectedSheet} records={records} />
         <div>
-          <Sheet records={records} sheet={this.state.selectedSheet} />
+          <Sheet sheet={this.state.selectedSheet} records={records}/>
         </div>
       </div>
     );

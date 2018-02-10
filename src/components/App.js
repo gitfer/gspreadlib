@@ -7,7 +7,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { sheets: [], records: [] };
+    this.state = { spreadsheetTitle: '', sheets: [], records: [] };
   }
 
   componentDidMount() {
@@ -18,7 +18,7 @@ export default class App extends React.Component {
     var that = this;
 
     $.getJSON('/spreadsheets', function(data) {
-      that.setState({ sheets: data.spreadsheet.sheets, records: data.values });
+      that.setState({ spreadsheetTitle: data.spreadsheet.properties.title, sheets: data.spreadsheet.sheets, records: data.values });
     });
   }
 
@@ -26,8 +26,7 @@ export default class App extends React.Component {
     return (
       <div>
         <Profile />
-        <InputSheetRecord />
-        <Spreadsheet sheets={this.state.sheets} records={this.state.records} />
+        <Spreadsheet spreadsheetTitle={this.state.spreadsheetTitle} sheets={this.state.sheets} records={this.state.records} />
       </div>
     );
   }

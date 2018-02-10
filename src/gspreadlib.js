@@ -141,6 +141,7 @@ const deleteRow = ({
 const insertRecord = ({
   auth,
   spreadsheetId,
+  sheetName = '',
   range = 'A3:C3',
   values = []
 }) =>
@@ -151,7 +152,7 @@ const insertRecord = ({
         spreadsheetId: spreadsheetId,
         insertDataOption: 'INSERT_ROWS',
         includeValuesInResponse: true,
-        range: range,
+        range: sheetName === '' ? range : sheetName + '!' + range,
         valueInputOption: 'USER_ENTERED',
         resource: {
           values: values
@@ -207,4 +208,4 @@ const sort = ({
     );
   });
 
-module.exports = { getSpreadSheet, listValues, insertRow, deleteRow, insertRecord, sort };
+module.exports = { getSpreadSheet, listValues, deleteRow, insertRecord, sort };
