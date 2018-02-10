@@ -54,6 +54,8 @@
   color: white;
   padding: .2em;
   text-decoration: none;
+  width: 150px;	
+  height: 56px;
 }
 
 
@@ -71,3 +73,11 @@
 }
 .row:nth-child(even) {background: #C8D8FB}
 .row:nth-child(odd) {background: #FFF}
+
+select {
+	width: 200px;
+	height: 40px;
+}
+input[type=text],input[type=number]  {
+	height: 40px;
+}

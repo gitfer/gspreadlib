@@ -38,6 +38,7 @@ export default class Spreadsheet extends React.Component {
         </div>
 
         <InputSheetRecord sheet={this.state.selectedSheet} records={records} />
+        <p />
         <div>
           <Sheet sheet={this.state.selectedSheet} records={records}/>
         </div>

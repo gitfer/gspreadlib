@@ -29098,6 +29098,7 @@ var Spreadsheet = function (_React$Component) {
           )
         ),
         _react2.default.createElement(_InputSheetRecord2.default, { sheet: this.state.selectedSheet, records: records }),
+        _react2.default.createElement('p', null),
         _react2.default.createElement(
           'div',
           null,
@@ -29212,6 +29213,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _lodash = __webpack_require__(34);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29230,6 +29235,37 @@ var SpreadsheetRecord = function (_React$Component) {
   }
 
   _createClass(SpreadsheetRecord, [{
+    key: 'formatCell',
+    value: function formatCell(causale) {
+      var mapColors = {
+        'spese mediche': '#3a51ff',
+        'spese': '#29fffe',
+        'benzina': '#ff66ff',
+        'bancomat': '#2cff36',
+        'telepass': '#faff2d',
+        'bollette': '#9e58ff',
+        'eir': '#fc9507'
+      };
+      var matchesColor = function matchesColor(causale, value) {
+        return _lodash2.default.includes(causale.toLowerCase(), value.toLowerCase());
+      };
+      if (!_lodash2.default.isNil(causale)) {
+        if (_lodash2.default.some(mapColors, function (value, key) {
+          return matchesColor(causale, key);
+        })) {
+          return {
+            backgroundColor: _lodash2.default.values(_lodash2.default.pickBy(mapColors, function (value, key) {
+              return matchesColor(causale, key);
+            }))[0],
+            padding: '6px',
+            color: _lodash2.default.some(mapColors, function (value, key) {
+              return matchesColor(causale, 'spese mediche');
+            }) ? 'white' : 'black'
+          };
+        }
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var url = '/delete/' + this.props.sheetId + '/rowIndex/' + this.props.index;
@@ -29254,7 +29290,7 @@ var SpreadsheetRecord = function (_React$Component) {
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { style: this.formatCell(this.props.record.causale) },
           this.props.record.causale
         )
       );
