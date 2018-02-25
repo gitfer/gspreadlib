@@ -1,6 +1,5 @@
 import React from 'react';
-import Sheet from './Sheet';
-import InputSheetRecord from './InputSheetRecord';
+import SheetRecordsRetriever from './SheetRecordsRetriever';
 
 export default class Spreadsheet extends React.Component {
   constructor(props) {
@@ -24,7 +23,6 @@ export default class Spreadsheet extends React.Component {
   render() {
     const spreadsheetTitle = this.props.spreadsheetTitle;
     const sheets = this.props.sheets;
-    const records = this.props.records;
 
     return (
       <div>
@@ -37,11 +35,8 @@ export default class Spreadsheet extends React.Component {
           </select>
         </div>
 
-        <InputSheetRecord sheet={this.state.selectedSheet} records={records} />
-        <p />
-        <div>
-          <Sheet sheet={this.state.selectedSheet} records={records}/>
-        </div>
+        <SheetRecordsRetriever sheet={this.state.selectedSheet}>
+        </SheetRecordsRetriever>
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import Profile from './Profile';
-import InputSheetRecord from './InputSheetRecord';
 import Spreadsheet from './Spreadsheet';
 
 export default class App extends React.Component {

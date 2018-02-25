@@ -19,27 +19,6 @@ export default class InputSheetRecord extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    var that = this;
-    if (nextProps.sheet !== this.props.sheet) {
-      that.GetSheetData(nextProps.sheet.properties.title, function(data) {
-        that.setState({ sheet: nextProps.sheet, records: data.values });
-      });
-    }
-
-  /*  if (nextProps.sheet !== this.props.sheet) {
-      this.setState({sheet: nextProps.sheet});
-    }
-    if (nextProps.records !== this.props.records) {
-      this.setState({records: nextProps.records});
-    }
-  */
-  }
-
-  GetSheetData(sheetId, cb) {
-    $.getJSON('/sheets/' + sheetId, cb);
-  }
-
   handleData(event) {
     this.setState({ data: event.target.value });
   }
@@ -54,7 +33,7 @@ export default class InputSheetRecord extends React.Component {
 
   submit() {
     let sheet = {};
-    Object.assign(sheet, this.state.sheet);
+    Object.assign(sheet, this.props.sheet);
     let sheetTitle = sheet.properties.title;
     var year = sheetTitle.slice(-4);
     const monthString = sheetTitle.slice(0, sheetTitle.length - 4);
@@ -96,8 +75,8 @@ export default class InputSheetRecord extends React.Component {
       return;
     }
     $.post('/insertRecord/', {
-      sheetName: this.state.sheet.properties.title,
-      sheetId: this.state.sheet.properties.sheetId,
+      sheetName: this.props.sheet.properties.title,
+      sheetId: this.props.sheet.properties.sheetId,
       data,
       valore,
       causale
