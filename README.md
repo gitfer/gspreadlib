@@ -39,3 +39,5 @@ This project was aimed to try the new google api for spreadsheet by creating a s
 * `npm install`
 * `npm start` (listening on localhost, port: 3000)
 * `npm t` in order to run jest tests.
+* `npm run start-clear` in order to run localhost:3000 with cleared storage.
+* `npm run webpack-build` in order to run webpack in watch mode.
