@@ -2,6 +2,8 @@ This project was aimed to try the new google api for spreadsheet by creating a s
 
 # GSpreadlib (google spreadsheets helper)
 
+[![Build Status](https://travis-ci.org/gitfer/gspreadlib.svg?branch=master)](https://travis-ci.org/gitfer/gspreadlib)
+
 ## Table of Contents
 
 * Setting data
