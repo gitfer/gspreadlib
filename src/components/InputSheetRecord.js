@@ -10,7 +10,7 @@ export default class InputSheetRecord extends React.Component {
       sheet: this.props.sheet,
       records: this.props.records,
       data: (new Date()).getDate(),
-      valore: 10,
+      valore: 40,
       causale: 'Benzina'
     };
     this.handleData = this.handleData.bind(this);
