@@ -45928,7 +45928,8 @@ var Spreadsheet = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.sheets.length > 0) {
-        var val = nextProps.sheets[0];
+        var currentMonth = new Date().getMonth();
+        var val = nextProps.sheets[currentMonth];
         this.setState({ selectedSheet: val });
       }
     }
