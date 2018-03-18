@@ -324,9 +324,10 @@ router.post('/insertRecord', function(req, res) {
   var valore = req.body.valore;
   var causale = req.body.causale;
   var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ','); ;
-  console.log('insertRecord', sheetName, sheetId, data, valoreStringa, causale);
-  gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
+  console.log('insertRecord', sheetName, sheetId, sheetName, data, valoreStringa, causale);
+  gspreadlib.listValues({ auth: oauth2Client, spreadsheetId, sheetName })
     .then(values => {
+      console.log('insertRecord values', values);
       if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
         return res.status(400).send('An item with same date and value already exists');
       }

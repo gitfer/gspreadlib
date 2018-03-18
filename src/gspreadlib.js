@@ -48,7 +48,7 @@ const listValues = ({
           console.log('No data found.');
           resolve([]);
         } else {
-          console.log('Data found:');
+          console.log('Data found:', rows);
           for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
 

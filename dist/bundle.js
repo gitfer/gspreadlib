@@ -46841,11 +46841,6 @@ var InputSheetRecord = function (_React$Component) {
       var sheetTitle = sheet.properties.title;
       var year = sheetTitle.slice(-4);
       var monthString = sheetTitle.slice(0, sheetTitle.length - 4);
-      /*    const monthsMap = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
-        .map((val, index) => {
-          return { val: ('0' + (index + 1)).slice(-2) };
-        });
-      ; */
       var monthsMap = {
         'Gennaio': '01',
         'Febbraio': '02',
@@ -46872,9 +46867,9 @@ var InputSheetRecord = function (_React$Component) {
         alert('Inserisci una causale');
         return;
       }
-      console.log(data, valore, causale, this.state.records);
-      var valoreStringa = _accounting2.default.formatMoney(valore, '€ ', 2, '.', ',');;
-      if (_lodash2.default.some(this.state.records, function (value) {
+      console.log(data, valore, causale, this.props.records);
+      var valoreStringa = _accounting2.default.formatMoney(valore, '€ ', 2, '.', ',');
+      if (_lodash2.default.some(this.props.records, function (value) {
         return value.data.toString() === data.toString() && value.valore === valoreStringa;
       })) {
         alert('Esiste già un valore con quella data e quel valore');
@@ -46891,8 +46886,8 @@ var InputSheetRecord = function (_React$Component) {
         console.log('post OK', res);
         that.props.onValueInserted({ data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale });
       }).catch(function (err) {
-        console.log(err);
-        alert('Error: ' + err.responseText);
+        console.log(err.response.data);
+        alert('Error: ' + err.response.data);
       });
     }
   }, {
