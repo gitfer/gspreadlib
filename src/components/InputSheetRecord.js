@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import accounting from 'accounting';
+var axios = require('axios');
 
 export default class InputSheetRecord extends React.Component {
   constructor(props) {
@@ -31,7 +32,8 @@ export default class InputSheetRecord extends React.Component {
     this.setState({causale: event.target.value});
   }
 
-  submit() {
+  submit(event) {
+    event.preventDefault();
     let sheet = {};
     Object.assign(sheet, this.props.sheet);
     let sheetTitle = sheet.properties.title;
@@ -74,13 +76,18 @@ export default class InputSheetRecord extends React.Component {
       alert('Esiste già un valore con quella data e quel valore');
       return;
     }
-    $.post('/insertRecord/', {
+    let that = this;
+    axios.post('/insertRecord/', {
       sheetName: this.props.sheet.properties.title,
       sheetId: this.props.sheet.properties.sheetId,
       data,
       valore,
       causale
     })
+      .then(function(res) {
+        console.log('post OK', res);
+        that.props.onValueInserted({data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale});
+      })
       .catch(function(err) {
         console.log(err);
         alert('Error: ' + err.responseText);
@@ -94,7 +101,7 @@ export default class InputSheetRecord extends React.Component {
       flexDirection: 'column'
     };
     return (
-      <form>
+      <form onSubmit={e => this.submit(e)} >
         <div style={formFieldsStyle}>
           <label>Giorno</label>
           <div>
@@ -110,7 +117,7 @@ export default class InputSheetRecord extends React.Component {
           <input type="text" value={this.state.causale} onChange={this.handleCausale} />
         </div>
         <div>
-          <input className="button" type="submit" value="Inserisci" onClick={() => this.submit()} />
+          <input className="button" type="submit" value="Inserisci" />
         </div>
       </form>
     );

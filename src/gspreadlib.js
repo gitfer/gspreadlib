@@ -160,8 +160,11 @@ const insertRecord = ({
       },
       function(err, response) {
         if (err) {
+          console.log('Error inserting record... ', err);
           reject(err);
         }
+
+        console.log('Record inserted with success ', response);
         resolve(response);
       }
     );
@@ -201,8 +204,11 @@ const sort = ({
       },
       function(err, response) {
         if (err) {
+          console.log('Sort happened with failure ', err);
           reject(err);
         }
+
+        console.log('Sort happened with success ', response);
         resolve(response);
       }
     );

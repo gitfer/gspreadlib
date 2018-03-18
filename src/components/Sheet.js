@@ -7,6 +7,13 @@ export default class Sheet extends React.Component {
     this.state = { sheet: this.props.sheet, records: this.props.records };
   }
 
+  componentWillReceiveProps(nextProps) {
+    var that = this;
+    if (nextProps.records !== this.props.records) {
+      that.setState({ records: nextProps.records });
+    }
+  }
+
   render() {
     const records = this.props.records;
 

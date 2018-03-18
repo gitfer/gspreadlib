@@ -17,7 +17,7 @@ export default class Spreadsheet extends React.Component {
     if (nextProps.sheets.length > 0) {
       console.log('newProps.sheets', nextProps.sheets);
       let currentMonth = (new Date()).getMonth();
-      let val = nextProps.sheets[nextProps.sheets.length - 1 - currentMonth ];
+      let val = nextProps.sheets[nextProps.sheets.length - 1 - currentMonth];
       this.setState({selectedSheet: val});
     }
   }
