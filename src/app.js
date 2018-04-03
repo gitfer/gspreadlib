@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join('./', 'public')));
+//app.use(express.static(path.join('./', 'public')));
 app.use(express.static(path.join('./', 'dist')));
 
 app.use('/', routes);
