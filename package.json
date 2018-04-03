@@ -6,6 +6,7 @@
   "dependencies": {
     "@material/button": "^0.34.0",
     "@material/ripple": "^0.34.0",
+    "@material/snackbar": "^0.34.0",
     "accounting": "^0.4.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

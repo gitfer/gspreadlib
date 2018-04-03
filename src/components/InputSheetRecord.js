@@ -2,10 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 import accounting from 'accounting';
 import {MDCRipple} from '@material/ripple';
+import {MDCSnackbar, MDCSnackbarFoundation} from '@material/snackbar';
 
 var axios = require('axios');
 
 export default class InputSheetRecord extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -32,6 +34,14 @@ export default class InputSheetRecord extends React.Component {
 
   handleCausale(event) {
     this.setState({causale: event.target.value});
+  }
+
+  openToaster(msg) {
+    if(this.snackbar !== undefined){
+      this.snackbar.show({
+        message: msg
+      });
+    }
   }
 
   submit(event) {
@@ -81,19 +91,30 @@ export default class InputSheetRecord extends React.Component {
       valore,
       causale
     })
-      .then(function(res) {
-        console.log('post OK', res);
-        that.props.onValueInserted({data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale});
-      })
-      .catch(function(err) {
-        console.log(err.response.data);
-        alert('Error: ' + err.response.data);
-      });
+    .then(function(res) {
+      console.log('post OK', res);
+      that.props.onValueInserted({data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale});
+      that.openToaster(res.data.data + " " +res.data.valoreStringa + " " + res.data.causale);
+    })
+    .catch(function(err) {
+      console.log(err.response.data);
+      that.openToaster('Error: ' + err.response.data);
+    });
+  }
+
+  openToaster(msg) {
+    const dataObj = {
+      message: msg
+    };
+
+    this.snackbar.show(dataObj);
   }
 
   componentDidMount(){
     var el = document.querySelector('.submit-button');
     const ripple = new MDCRipple(el); 
+
+    this.snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
   }
 
   render() {
@@ -104,6 +125,7 @@ export default class InputSheetRecord extends React.Component {
     };
 
     return (
+      <div>
       <form onSubmit={e => this.submit(e)} >
         <div style={formFieldsStyle}>
           <label>Giorno</label>
@@ -123,6 +145,16 @@ export default class InputSheetRecord extends React.Component {
           <button ref={node => this.inputElement = node} className="submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" type="submit" >Inserisci</button>
         </div>
       </form>
+          <div className="mdc-snackbar"
+         aria-live="assertive"
+         aria-atomic="true"
+         aria-hidden="true">
+          <div className="mdc-snackbar__text"></div>
+          <div className="mdc-snackbar__action-wrapper">
+            <button type="button" className="mdc-snackbar__action-button"></button>
+          </div>
+        </div>
+        </div>
     );
   }
 }

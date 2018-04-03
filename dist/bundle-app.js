@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 28);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(21);
-var isBuffer = __webpack_require__(53);
+var bind = __webpack_require__(23);
+var isBuffer = __webpack_require__(58);
 
 /*global toString:true*/
 
@@ -571,9 +571,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(27);
+  module.exports = __webpack_require__(29);
 } else {
-  module.exports = __webpack_require__(28);
+  module.exports = __webpack_require__(30);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -11243,13 +11243,88 @@ return jQuery;
 
 /***/ }),
 /* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @template A
+ */
+class MDCFoundation {
+  /** @return enum{cssClasses} */
+  static get cssClasses() {
+    // Classes extending MDCFoundation should implement this method to return an object which exports every
+    // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
+    return {};
+  }
+
+  /** @return enum{strings} */
+  static get strings() {
+    // Classes extending MDCFoundation should implement this method to return an object which exports all
+    // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
+    return {};
+  }
+
+  /** @return enum{numbers} */
+  static get numbers() {
+    // Classes extending MDCFoundation should implement this method to return an object which exports all
+    // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
+    return {};
+  }
+
+  /** @return {!Object} */
+  static get defaultAdapter() {
+    // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
+    // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
+    // validation.
+    return {};
+  }
+
+  /**
+   * @param {A=} adapter
+   */
+  constructor(adapter = {}) {
+    /** @protected {!A} */
+    this.adapter_ = adapter;
+  }
+
+  init() {
+    // Subclasses should override this method to perform initialization routines (registering events, etc.)
+  }
+
+  destroy() {
+    // Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MDCFoundation);
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(55);
+var normalizeHeaderName = __webpack_require__(60);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -11265,10 +11340,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(22);
+    adapter = __webpack_require__(24);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(22);
+    adapter = __webpack_require__(24);
   }
   return adapter;
 }
@@ -11346,7 +11421,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11362,7 +11437,7 @@ module.exports = defaults;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(6);
   var warning = __webpack_require__(7);
-  var ReactPropTypesSecret = __webpack_require__(29);
+  var ReactPropTypesSecret = __webpack_require__(31);
   var loggedTypeFailures = {};
 }
 
@@ -11413,7 +11488,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11452,7 +11527,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11533,7 +11608,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11575,7 +11650,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11646,7 +11721,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11661,7 +11736,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(32);
+var isTextNode = __webpack_require__(34);
 
 /*eslint-disable no-bitwise */
 
@@ -11689,7 +11764,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11719,7 +11794,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -28808,13 +28883,14 @@ module.exports = focusNode;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44), __webpack_require__(45)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46), __webpack_require__(47)(module)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__foundation__ = __webpack_require__(9);
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -28832,61 +28908,118 @@ module.exports = focusNode;
  * limitations under the License.
  */
 
+
+
 /**
- * @template A
+ * @template F
  */
-class MDCFoundation {
-  /** @return enum{cssClasses} */
-  static get cssClasses() {
-    // Classes extending MDCFoundation should implement this method to return an object which exports every
-    // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
-    return {};
-  }
-
-  /** @return enum{strings} */
-  static get strings() {
-    // Classes extending MDCFoundation should implement this method to return an object which exports all
-    // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
-    return {};
-  }
-
-  /** @return enum{numbers} */
-  static get numbers() {
-    // Classes extending MDCFoundation should implement this method to return an object which exports all
-    // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
-    return {};
-  }
-
-  /** @return {!Object} */
-  static get defaultAdapter() {
-    // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
-    // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
-    // validation.
-    return {};
+class MDCComponent {
+  /**
+   * @param {!Element} root
+   * @return {!MDCComponent}
+   */
+  static attachTo(root) {
+    // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
+    // returns an instantiated component with its root set to that element. Also note that in the cases of
+    // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
+    // from getDefaultFoundation().
+    return new MDCComponent(root, new __WEBPACK_IMPORTED_MODULE_0__foundation__["a" /* default */]());
   }
 
   /**
-   * @param {A=} adapter
+   * @param {!Element} root
+   * @param {F=} foundation
+   * @param {...?} args
    */
-  constructor(adapter = {}) {
-    /** @protected {!A} */
-    this.adapter_ = adapter;
+  constructor(root, foundation = undefined, ...args) {
+    /** @protected {!Element} */
+    this.root_ = root;
+    this.initialize(...args);
+    // Note that we initialize foundation here and not within the constructor's default param so that
+    // this.root_ is defined and can be used within the foundation class.
+    /** @protected {!F} */
+    this.foundation_ = foundation === undefined ? this.getDefaultFoundation() : foundation;
+    this.foundation_.init();
+    this.initialSyncWithDOM();
   }
 
-  init() {
-    // Subclasses should override this method to perform initialization routines (registering events, etc.)
+  initialize(/* ...args */) {
+    // Subclasses can override this to do any additional setup work that would be considered part of a
+    // "constructor". Essentially, it is a hook into the parent constructor before the foundation is
+    // initialized. Any additional arguments besides root and foundation will be passed in here.
+  }
+
+  /**
+   * @return {!F} foundation
+   */
+  getDefaultFoundation() {
+    // Subclasses must override this method to return a properly configured foundation class for the
+    // component.
+    throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' +
+      'foundation class');
+  }
+
+  initialSyncWithDOM() {
+    // Subclasses should override this method if they need to perform work to synchronize with a host DOM
+    // object. An example of this would be a form control wrapper that needs to synchronize its internal state
+    // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
+    // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
   }
 
   destroy() {
-    // Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+    // Subclasses may implement this method to release any resources / deregister any listeners they have
+    // attached. An example of this might be deregistering a resize event from the window object.
+    this.foundation_.destroy();
+  }
+
+  /**
+   * Wrapper method to add an event listener to the component's root element. This is most useful when
+   * listening for custom events.
+   * @param {string} evtType
+   * @param {!Function} handler
+   */
+  listen(evtType, handler) {
+    this.root_.addEventListener(evtType, handler);
+  }
+
+  /**
+   * Wrapper method to remove an event listener to the component's root element. This is most useful when
+   * unlistening for custom events.
+   * @param {string} evtType
+   * @param {!Function} handler
+   */
+  unlisten(evtType, handler) {
+    this.root_.removeEventListener(evtType, handler);
+  }
+
+  /**
+   * Fires a cross-browser-compatible custom event from the component root of the given type,
+   * with the given data.
+   * @param {string} evtType
+   * @param {!Object} evtData
+   * @param {boolean=} shouldBubble
+   */
+  emit(evtType, evtData, shouldBubble = false) {
+    let evt;
+    if (typeof CustomEvent === 'function') {
+      evt = new CustomEvent(evtType, {
+        detail: evtData,
+        bubbles: shouldBubble,
+      });
+    } else {
+      evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent(evtType, shouldBubble, false, evtData);
+    }
+
+    this.root_.dispatchEvent(evt);
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (MDCFoundation);
+/* harmony default export */ __webpack_exports__["a"] = (MDCComponent);
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29003,7 +29136,7 @@ class MDCRippleAdapter {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29161,7 +29294,39 @@ function getNormalizedEventCoords(ev, pageOffset, clientRect) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__foundation__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component__ = __webpack_require__(19);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__foundation__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__component__["a"]; });
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+
+
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29179,19 +29344,19 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(56);
-var buildURL = __webpack_require__(58);
-var parseHeaders = __webpack_require__(59);
-var isURLSameOrigin = __webpack_require__(60);
-var createError = __webpack_require__(23);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(61);
+var settle = __webpack_require__(61);
+var buildURL = __webpack_require__(63);
+var parseHeaders = __webpack_require__(64);
+var isURLSameOrigin = __webpack_require__(65);
+var createError = __webpack_require__(25);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(66);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -29288,7 +29453,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(62);
+      var cookies = __webpack_require__(67);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -29367,13 +29532,13 @@ module.exports = function xhrAdapter(config) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(57);
+var enhanceError = __webpack_require__(62);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -29392,7 +29557,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29404,7 +29569,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29430,7 +29595,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29440,11 +29605,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(30);
+var _reactDom = __webpack_require__(32);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _App = __webpack_require__(39);
+var _App = __webpack_require__(41);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -29453,7 +29618,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('root'));
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29481,7 +29646,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29507,7 +29672,7 @@ var emptyObject = __webpack_require__(5);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
 var emptyFunction = __webpack_require__(3);
-var checkPropTypes = __webpack_require__(10);
+var checkPropTypes = __webpack_require__(11);
 
 // TODO: this is special because it gets imported during build.
 
@@ -30846,7 +31011,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30865,7 +31030,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30903,15 +31068,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(31);
+  module.exports = __webpack_require__(33);
 } else {
-  module.exports = __webpack_require__(34);
+  module.exports = __webpack_require__(36);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30927,7 +31092,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2),l=__webpack_require__(11),B=__webpack_require__(4),C=__webpack_require__(3),ba=__webpack_require__(12),da=__webpack_require__(13),ea=__webpack_require__(14),fa=__webpack_require__(15),ia=__webpack_require__(16),D=__webpack_require__(5);
+var aa=__webpack_require__(2),l=__webpack_require__(12),B=__webpack_require__(4),C=__webpack_require__(3),ba=__webpack_require__(13),da=__webpack_require__(14),ea=__webpack_require__(15),fa=__webpack_require__(16),ia=__webpack_require__(17),D=__webpack_require__(5);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -31147,7 +31312,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31162,7 +31327,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(33);
+var isNode = __webpack_require__(35);
 
 /**
  * @param {*} object The object to check.
@@ -31175,7 +31340,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31203,7 +31368,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31227,18 +31392,18 @@ if (process.env.NODE_ENV !== "production") {
 var React = __webpack_require__(2);
 var invariant = __webpack_require__(6);
 var warning = __webpack_require__(7);
-var ExecutionEnvironment = __webpack_require__(11);
+var ExecutionEnvironment = __webpack_require__(12);
 var _assign = __webpack_require__(4);
 var emptyFunction = __webpack_require__(3);
-var EventListener = __webpack_require__(12);
-var getActiveElement = __webpack_require__(13);
-var shallowEqual = __webpack_require__(14);
-var containsNode = __webpack_require__(15);
-var focusNode = __webpack_require__(16);
+var EventListener = __webpack_require__(13);
+var getActiveElement = __webpack_require__(14);
+var shallowEqual = __webpack_require__(15);
+var containsNode = __webpack_require__(16);
+var focusNode = __webpack_require__(17);
 var emptyObject = __webpack_require__(5);
-var checkPropTypes = __webpack_require__(10);
-var hyphenateStyleName = __webpack_require__(35);
-var camelizeStyleName = __webpack_require__(37);
+var checkPropTypes = __webpack_require__(11);
+var hyphenateStyleName = __webpack_require__(37);
+var camelizeStyleName = __webpack_require__(39);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -46605,7 +46770,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46620,7 +46785,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(36);
+var hyphenate = __webpack_require__(38);
 
 var msPattern = /^ms-/;
 
@@ -46647,7 +46812,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46683,7 +46848,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46698,7 +46863,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(38);
+var camelize = __webpack_require__(40);
 
 var msPattern = /^-ms-/;
 
@@ -46726,7 +46891,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46761,7 +46926,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46777,11 +46942,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Profile = __webpack_require__(40);
+var _Profile = __webpack_require__(42);
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
-var _Spreadsheet = __webpack_require__(41);
+var _Spreadsheet = __webpack_require__(43);
 
 var _Spreadsheet2 = _interopRequireDefault(_Spreadsheet);
 
@@ -46838,7 +47003,7 @@ exports.default = App;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46908,7 +47073,7 @@ exports.default = Profile;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46924,7 +47089,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SheetRecordsRetriever = __webpack_require__(42);
+var _SheetRecordsRetriever = __webpack_require__(44);
 
 var _SheetRecordsRetriever2 = _interopRequireDefault(_SheetRecordsRetriever);
 
@@ -47007,7 +47172,7 @@ var Spreadsheet = function (_React$Component) {
 exports.default = Spreadsheet;
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47023,11 +47188,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _InputSheetRecord = __webpack_require__(43);
+var _InputSheetRecord = __webpack_require__(45);
 
 var _InputSheetRecord2 = _interopRequireDefault(_InputSheetRecord);
 
-var _Sheet = __webpack_require__(70);
+var _Sheet = __webpack_require__(75);
 
 var _Sheet2 = _interopRequireDefault(_Sheet);
 
@@ -47111,7 +47276,7 @@ exports.default = SheetRecordsRetriever;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47127,15 +47292,17 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lodash = __webpack_require__(17);
+var _lodash = __webpack_require__(18);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _accounting = __webpack_require__(46);
+var _accounting = __webpack_require__(48);
 
 var _accounting2 = _interopRequireDefault(_accounting);
 
-var _ripple = __webpack_require__(47);
+var _ripple = __webpack_require__(49);
+
+var _snackbar = __webpack_require__(52);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47145,7 +47312,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var axios = __webpack_require__(51);
+var axios = __webpack_require__(56);
 
 var InputSheetRecord = function (_React$Component) {
   _inherits(InputSheetRecord, _React$Component);
@@ -47183,6 +47350,15 @@ var InputSheetRecord = function (_React$Component) {
     key: 'handleCausale',
     value: function handleCausale(event) {
       this.setState({ causale: event.target.value });
+    }
+  }, {
+    key: 'openToaster',
+    value: function openToaster(msg) {
+      if (this.snackbar !== undefined) {
+        this.snackbar.show({
+          message: msg
+        });
+      }
     }
   }, {
     key: 'submit',
@@ -47237,16 +47413,28 @@ var InputSheetRecord = function (_React$Component) {
       }).then(function (res) {
         console.log('post OK', res);
         that.props.onValueInserted({ data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale });
+        that.openToaster(res.data.data + " " + res.data.valoreStringa + " " + res.data.causale);
       }).catch(function (err) {
         console.log(err.response.data);
-        alert('Error: ' + err.response.data);
+        that.openToaster('Error: ' + err.response.data);
       });
+    }
+  }, {
+    key: 'openToaster',
+    value: function openToaster(msg) {
+      var dataObj = {
+        message: msg
+      };
+
+      this.snackbar.show(dataObj);
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var el = document.querySelector('.submit-button');
       var ripple = new _ripple.MDCRipple(el);
+
+      this.snackbar = new _snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
     }
   }, {
     key: 'render',
@@ -47262,55 +47450,72 @@ var InputSheetRecord = function (_React$Component) {
       };
 
       return _react2.default.createElement(
-        'form',
-        { onSubmit: function onSubmit(e) {
-            return _this2.submit(e);
-          } },
+        'div',
+        null,
         _react2.default.createElement(
-          'div',
-          { style: formFieldsStyle },
+          'form',
+          { onSubmit: function onSubmit(e) {
+              return _this2.submit(e);
+            } },
           _react2.default.createElement(
-            'label',
-            null,
-            'Giorno'
+            'div',
+            { style: formFieldsStyle },
+            _react2.default.createElement(
+              'label',
+              null,
+              'Giorno'
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'select',
+                { value: this.state.data, onChange: this.handleData },
+                days.map(function (day) {
+                  return _react2.default.createElement(
+                    'option',
+                    { key: day, value: day },
+                    day
+                  );
+                })
+              )
+            ),
+            _react2.default.createElement(
+              'label',
+              null,
+              'Valore'
+            ),
+            _react2.default.createElement('input', { type: 'number', min: '0', step: '0.01', value: this.state.valore, onChange: this.handleValore }),
+            _react2.default.createElement(
+              'label',
+              null,
+              'Causale'
+            ),
+            _react2.default.createElement('input', { type: 'text', value: this.state.causale, onChange: this.handleCausale })
           ),
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'submit-button-container' },
             _react2.default.createElement(
-              'select',
-              { value: this.state.data, onChange: this.handleData },
-              days.map(function (day) {
-                return _react2.default.createElement(
-                  'option',
-                  { key: day, value: day },
-                  day
-                );
-              })
+              'button',
+              { ref: function ref(node) {
+                  return _this2.inputElement = node;
+                }, className: 'submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation', type: 'submit' },
+              'Inserisci'
             )
-          ),
-          _react2.default.createElement(
-            'label',
-            null,
-            'Valore'
-          ),
-          _react2.default.createElement('input', { type: 'number', min: '0', step: '0.01', value: this.state.valore, onChange: this.handleValore }),
-          _react2.default.createElement(
-            'label',
-            null,
-            'Causale'
-          ),
-          _react2.default.createElement('input', { type: 'text', value: this.state.causale, onChange: this.handleCausale })
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'submit-button-container' },
+          { className: 'mdc-snackbar',
+            'aria-live': 'assertive',
+            'aria-atomic': 'true',
+            'aria-hidden': 'true' },
+          _react2.default.createElement('div', { className: 'mdc-snackbar__text' }),
           _react2.default.createElement(
-            'button',
-            { ref: function ref(node) {
-                return _this2.inputElement = node;
-              }, className: 'submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation', type: 'submit' },
-            'Inserisci'
+            'div',
+            { className: 'mdc-snackbar__action-wrapper' },
+            _react2.default.createElement('button', { type: 'button', className: 'mdc-snackbar__action-button' })
           )
         )
       );
@@ -47323,7 +47528,7 @@ var InputSheetRecord = function (_React$Component) {
 exports.default = InputSheetRecord;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 var g;
@@ -47350,7 +47555,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -47378,7 +47583,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -47797,17 +48002,17 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MDCRipple", function() { return MDCRipple; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RippleCapableSurface", function() { return RippleCapableSurface; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_component__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_component__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(21);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MDCRippleFoundation", function() { return __WEBPACK_IMPORTED_MODULE_2__foundation__["a"]; });
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "util", function() { return __WEBPACK_IMPORTED_MODULE_3__util__; });
 /**
@@ -47962,147 +48167,14 @@ RippleCapableSurface.prototype.disabled;
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__foundation__ = __webpack_require__(18);
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
-
-/**
- * @template F
- */
-class MDCComponent {
-  /**
-   * @param {!Element} root
-   * @return {!MDCComponent}
-   */
-  static attachTo(root) {
-    // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
-    // returns an instantiated component with its root set to that element. Also note that in the cases of
-    // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
-    // from getDefaultFoundation().
-    return new MDCComponent(root, new __WEBPACK_IMPORTED_MODULE_0__foundation__["a" /* default */]());
-  }
-
-  /**
-   * @param {!Element} root
-   * @param {F=} foundation
-   * @param {...?} args
-   */
-  constructor(root, foundation = undefined, ...args) {
-    /** @protected {!Element} */
-    this.root_ = root;
-    this.initialize(...args);
-    // Note that we initialize foundation here and not within the constructor's default param so that
-    // this.root_ is defined and can be used within the foundation class.
-    /** @protected {!F} */
-    this.foundation_ = foundation === undefined ? this.getDefaultFoundation() : foundation;
-    this.foundation_.init();
-    this.initialSyncWithDOM();
-  }
-
-  initialize(/* ...args */) {
-    // Subclasses can override this to do any additional setup work that would be considered part of a
-    // "constructor". Essentially, it is a hook into the parent constructor before the foundation is
-    // initialized. Any additional arguments besides root and foundation will be passed in here.
-  }
-
-  /**
-   * @return {!F} foundation
-   */
-  getDefaultFoundation() {
-    // Subclasses must override this method to return a properly configured foundation class for the
-    // component.
-    throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' +
-      'foundation class');
-  }
-
-  initialSyncWithDOM() {
-    // Subclasses should override this method if they need to perform work to synchronize with a host DOM
-    // object. An example of this would be a form control wrapper that needs to synchronize its internal state
-    // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
-    // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
-  }
-
-  destroy() {
-    // Subclasses may implement this method to release any resources / deregister any listeners they have
-    // attached. An example of this might be deregistering a resize event from the window object.
-    this.foundation_.destroy();
-  }
-
-  /**
-   * Wrapper method to add an event listener to the component's root element. This is most useful when
-   * listening for custom events.
-   * @param {string} evtType
-   * @param {!Function} handler
-   */
-  listen(evtType, handler) {
-    this.root_.addEventListener(evtType, handler);
-  }
-
-  /**
-   * Wrapper method to remove an event listener to the component's root element. This is most useful when
-   * unlistening for custom events.
-   * @param {string} evtType
-   * @param {!Function} handler
-   */
-  unlisten(evtType, handler) {
-    this.root_.removeEventListener(evtType, handler);
-  }
-
-  /**
-   * Fires a cross-browser-compatible custom event from the component root of the given type,
-   * with the given data.
-   * @param {string} evtType
-   * @param {!Object} evtData
-   * @param {boolean=} shouldBubble
-   */
-  emit(evtType, evtData, shouldBubble = false) {
-    let evt;
-    if (typeof CustomEvent === 'function') {
-      evt = new CustomEvent(evtType, {
-        detail: evtData,
-        bubbles: shouldBubble,
-      });
-    } else {
-      evt = document.createEvent('CustomEvent');
-      evt.initCustomEvent(evtType, shouldBubble, false, evtData);
-    }
-
-    this.root_.dispatchEvent(evt);
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (MDCComponent);
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_foundation__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_foundation__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(21);
 /**
  * @license
  * Copyright 2016 Google Inc. All Rights Reserved.
@@ -48663,7 +48735,7 @@ class MDCRippleFoundation extends __WEBPACK_IMPORTED_MODULE_0__material_base_fou
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48719,22 +48791,573 @@ const numbers = {
 
 
 /***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(52);
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_index__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__foundation__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__material_animation_index__ = __webpack_require__(55);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MDCSnackbarFoundation", function() { return __WEBPACK_IMPORTED_MODULE_1__foundation__["a"]; });
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+
+
+
+
+class MDCSnackbar extends __WEBPACK_IMPORTED_MODULE_0__material_base_index__["a" /* MDCComponent */] {
+  static attachTo(root) {
+    return new MDCSnackbar(root);
+  }
+
+  show(data) {
+    this.foundation_.show(data);
+  }
+
+  getDefaultFoundation() {
+    const {
+      TEXT_SELECTOR,
+      ACTION_BUTTON_SELECTOR,
+    } = __WEBPACK_IMPORTED_MODULE_1__foundation__["a" /* default */].strings;
+    const getText = () => this.root_.querySelector(TEXT_SELECTOR);
+    const getActionButton = () => this.root_.querySelector(ACTION_BUTTON_SELECTOR);
+
+    /* eslint brace-style: "off" */
+    return new __WEBPACK_IMPORTED_MODULE_1__foundation__["a" /* default */]({
+      addClass: (className) => this.root_.classList.add(className),
+      removeClass: (className) => this.root_.classList.remove(className),
+      setAriaHidden: () => this.root_.setAttribute('aria-hidden', 'true'),
+      unsetAriaHidden: () => this.root_.removeAttribute('aria-hidden'),
+      setActionAriaHidden: () => getActionButton().setAttribute('aria-hidden', 'true'),
+      unsetActionAriaHidden: () => getActionButton().removeAttribute('aria-hidden'),
+      setActionText: (text) => {getActionButton().textContent = text;},
+      setMessageText: (text) => {getText().textContent = text;},
+      setFocus: () => getActionButton().focus(),
+      visibilityIsHidden: () => document.hidden,
+      registerCapturedBlurHandler: (handler) => getActionButton().addEventListener('blur', handler, true),
+      deregisterCapturedBlurHandler: (handler) => getActionButton().removeEventListener('blur', handler, true),
+      registerVisibilityChangeHandler: (handler) => document.addEventListener('visibilitychange', handler),
+      deregisterVisibilityChangeHandler: (handler) => document.removeEventListener('visibilitychange', handler),
+      registerCapturedInteractionHandler: (evt, handler) =>
+        document.body.addEventListener(evt, handler, true),
+      deregisterCapturedInteractionHandler: (evt, handler) =>
+        document.body.removeEventListener(evt, handler, true),
+      registerActionClickHandler: (handler) => getActionButton().addEventListener('click', handler),
+      deregisterActionClickHandler: (handler) => getActionButton().removeEventListener('click', handler),
+      registerTransitionEndHandler:
+        (handler) => this.root_.addEventListener(Object(__WEBPACK_IMPORTED_MODULE_2__material_animation_index__["a" /* getCorrectEventName */])(window, 'transitionend'), handler),
+      deregisterTransitionEndHandler:
+        (handler) => this.root_.removeEventListener(Object(__WEBPACK_IMPORTED_MODULE_2__material_animation_index__["a" /* getCorrectEventName */])(window, 'transitionend'), handler),
+      notifyShow: () => this.emit(__WEBPACK_IMPORTED_MODULE_1__foundation__["a" /* default */].strings.SHOW_EVENT),
+      notifyHide: () => this.emit(__WEBPACK_IMPORTED_MODULE_1__foundation__["a" /* default */].strings.HIDE_EVENT),
+    });
+  }
+
+  get dismissesOnAction() {
+    return this.foundation_.dismissesOnAction();
+  }
+
+  set dismissesOnAction(dismissesOnAction) {
+    this.foundation_.setDismissOnAction(dismissesOnAction);
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["MDCSnackbar"] = MDCSnackbar;
+
+
 
 /***/ }),
-/* 52 */
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_index__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(54);
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+
+class MDCSnackbarFoundation extends __WEBPACK_IMPORTED_MODULE_0__material_base_index__["b" /* MDCFoundation */] {
+  static get cssClasses() {
+    return __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* cssClasses */];
+  }
+
+  static get strings() {
+    return __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* strings */];
+  }
+
+  static get defaultAdapter() {
+    return {
+      addClass: (/* className: string */) => {},
+      removeClass: (/* className: string */) => {},
+      setAriaHidden: () => {},
+      unsetAriaHidden: () => {},
+      setActionAriaHidden: () => {},
+      unsetActionAriaHidden: () => {},
+      setActionText: (/* actionText: string */) => {},
+      setMessageText: (/* message: string */) => {},
+      setFocus: () => {},
+      visibilityIsHidden: () => /* boolean */ false,
+      registerCapturedBlurHandler: (/* handler: EventListener */) => {},
+      deregisterCapturedBlurHandler: (/* handler: EventListener */) => {},
+      registerVisibilityChangeHandler: (/* handler: EventListener */) => {},
+      deregisterVisibilityChangeHandler: (/* handler: EventListener */) => {},
+      registerCapturedInteractionHandler: (/* evtType: string, handler: EventListener */) => {},
+      deregisterCapturedInteractionHandler: (/* evtType: string, handler: EventListener */) => {},
+      registerActionClickHandler: (/* handler: EventListener */) => {},
+      deregisterActionClickHandler: (/* handler: EventListener */) => {},
+      registerTransitionEndHandler: (/* handler: EventListener */) => {},
+      deregisterTransitionEndHandler: (/* handler: EventListener */) => {},
+      notifyShow: () => {},
+      notifyHide: () => {},
+    };
+  }
+
+  get active() {
+    return this.active_;
+  }
+
+  constructor(adapter) {
+    super(Object.assign(MDCSnackbarFoundation.defaultAdapter, adapter));
+
+    this.active_ = false;
+    this.actionWasClicked_ = false;
+    this.dismissOnAction_ = true;
+    this.firstFocus_ = true;
+    this.pointerDownRecognized_ = false;
+    this.snackbarHasFocus_ = false;
+    this.snackbarData_ = null;
+    this.queue_ = [];
+    this.actionClickHandler_ = () => {
+      this.actionWasClicked_ = true;
+      this.invokeAction_();
+    };
+    this.visibilitychangeHandler_ = () => {
+      clearTimeout(this.timeoutId_);
+      this.snackbarHasFocus_ = true;
+
+      if (!this.adapter_.visibilityIsHidden()) {
+        setTimeout(this.cleanup_.bind(this), this.snackbarData_.timeout || __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* numbers */].MESSAGE_TIMEOUT);
+      }
+    };
+    this.interactionHandler_ = (evt) => {
+      if (evt.type == 'touchstart' || evt.type == 'mousedown') {
+        this.pointerDownRecognized_ = true;
+      }
+      this.handlePossibleTabKeyboardFocus_(evt);
+
+      if (evt.type == 'focus') {
+        this.pointerDownRecognized_ = false;
+      }
+    };
+    this.blurHandler_ = () => {
+      clearTimeout(this.timeoutId_);
+      this.snackbarHasFocus_ = false;
+      this.timeoutId_ = setTimeout(this.cleanup_.bind(this), this.snackbarData_.timeout || __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* numbers */].MESSAGE_TIMEOUT);
+    };
+  }
+
+  init() {
+    this.adapter_.registerActionClickHandler(this.actionClickHandler_);
+    this.adapter_.setAriaHidden();
+    this.adapter_.setActionAriaHidden();
+  }
+
+  destroy() {
+    this.adapter_.deregisterActionClickHandler(this.actionClickHandler_);
+    this.adapter_.deregisterCapturedBlurHandler(this.blurHandler_);
+    this.adapter_.deregisterVisibilityChangeHandler(this.visibilitychangeHandler_);
+    ['touchstart', 'mousedown', 'focus'].forEach((evtType) => {
+      this.adapter_.deregisterCapturedInteractionHandler(evtType, this.interactionHandler_);
+    });
+  }
+
+  dismissesOnAction() {
+    return this.dismissOnAction_;
+  }
+
+  setDismissOnAction(dismissOnAction) {
+    this.dismissOnAction_ = !!dismissOnAction;
+  }
+
+  show(data) {
+    if (!data) {
+      throw new Error(
+        'Please provide a data object with at least a message to display.');
+    }
+    if (!data.message) {
+      throw new Error('Please provide a message to be displayed.');
+    }
+    if (data.actionHandler && !data.actionText) {
+      throw new Error('Please provide action text with the handler.');
+    }
+    if (this.active) {
+      this.queue_.push(data);
+      return;
+    }
+    clearTimeout(this.timeoutId_);
+    this.snackbarData_ = data;
+    this.firstFocus_ = true;
+    this.adapter_.registerVisibilityChangeHandler(this.visibilitychangeHandler_);
+    this.adapter_.registerCapturedBlurHandler(this.blurHandler_);
+    ['touchstart', 'mousedown', 'focus'].forEach((evtType) => {
+      this.adapter_.registerCapturedInteractionHandler(evtType, this.interactionHandler_);
+    });
+
+    const {ACTIVE, MULTILINE, ACTION_ON_BOTTOM} = __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* cssClasses */];
+
+    this.adapter_.setMessageText(this.snackbarData_.message);
+
+    if (this.snackbarData_.multiline) {
+      this.adapter_.addClass(MULTILINE);
+      if (this.snackbarData_.actionOnBottom) {
+        this.adapter_.addClass(ACTION_ON_BOTTOM);
+      }
+    }
+
+    if (this.snackbarData_.actionHandler) {
+      this.adapter_.setActionText(this.snackbarData_.actionText);
+      this.actionHandler_ = this.snackbarData_.actionHandler;
+      this.setActionHidden_(false);
+    } else {
+      this.setActionHidden_(true);
+      this.actionHandler_ = null;
+      this.adapter_.setActionText(null);
+    }
+
+    this.active_ = true;
+    this.adapter_.addClass(ACTIVE);
+    this.adapter_.unsetAriaHidden();
+    this.adapter_.notifyShow();
+
+    this.timeoutId_ = setTimeout(this.cleanup_.bind(this), this.snackbarData_.timeout || __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* numbers */].MESSAGE_TIMEOUT);
+  }
+
+  handlePossibleTabKeyboardFocus_() {
+    const hijackFocus =
+      this.firstFocus_ && !this.pointerDownRecognized_;
+
+    if (hijackFocus) {
+      this.setFocusOnAction_();
+    }
+
+    this.firstFocus_ = false;
+  }
+
+  setFocusOnAction_() {
+    this.adapter_.setFocus();
+    this.snackbarHasFocus_ = true;
+    this.firstFocus_ = false;
+  }
+
+  invokeAction_() {
+    try {
+      if (!this.actionHandler_) {
+        return;
+      }
+
+      this.actionHandler_();
+    } finally {
+      if (this.dismissOnAction_) {
+        this.cleanup_();
+      }
+    }
+  }
+
+  cleanup_() {
+    const allowDismissal = !this.snackbarHasFocus_ || this.actionWasClicked_;
+
+    if (allowDismissal) {
+      const {ACTIVE, MULTILINE, ACTION_ON_BOTTOM} = __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* cssClasses */];
+
+      this.adapter_.removeClass(ACTIVE);
+
+      const handler = () => {
+        clearTimeout(this.timeoutId_);
+        this.adapter_.deregisterTransitionEndHandler(handler);
+        this.adapter_.removeClass(MULTILINE);
+        this.adapter_.removeClass(ACTION_ON_BOTTOM);
+        this.setActionHidden_(true);
+        this.adapter_.setAriaHidden();
+        this.active_ = false;
+        this.snackbarHasFocus_ = false;
+        this.adapter_.notifyHide();
+        this.showNext_();
+      };
+
+      this.adapter_.registerTransitionEndHandler(handler);
+    }
+  }
+
+  showNext_() {
+    if (!this.queue_.length) {
+      return;
+    }
+    this.show(this.queue_.shift());
+  }
+
+  setActionHidden_(isHidden) {
+    if (isHidden) {
+      this.adapter_.setActionAriaHidden();
+    } else {
+      this.adapter_.unsetActionAriaHidden();
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = MDCSnackbarFoundation;
+
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const cssClasses = {
+  ROOT: 'mdc-snackbar',
+  TEXT: 'mdc-snackbar__text',
+  ACTION_WRAPPER: 'mdc-snackbar__action-wrapper',
+  ACTION_BUTTON: 'mdc-snackbar__action-button',
+  ACTIVE: 'mdc-snackbar--active',
+  MULTILINE: 'mdc-snackbar--multiline',
+  ACTION_ON_BOTTOM: 'mdc-snackbar--action-on-bottom',
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = cssClasses;
+
+
+const strings = {
+  TEXT_SELECTOR: '.mdc-snackbar__text',
+  ACTION_WRAPPER_SELECTOR: '.mdc-snackbar__action-wrapper',
+  ACTION_BUTTON_SELECTOR: '.mdc-snackbar__action-button',
+  SHOW_EVENT: 'MDCSnackbar:show',
+  HIDE_EVENT: 'MDCSnackbar:hide',
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = strings;
+
+
+const numbers = {
+  MESSAGE_TIMEOUT: 2750,
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = numbers;
+
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export transformStyleProperties */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getCorrectEventName; });
+/* unused harmony export getCorrectPropertyName */
+/**
+ * @license
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @typedef {{
+ *   noPrefix: string,
+ *   webkitPrefix: string,
+ *   styleProperty: string
+ * }}
+ */
+let VendorPropertyMapType;
+
+/** @const {Object<string, !VendorPropertyMapType>} */
+const eventTypeMap = {
+  'animationstart': {
+    noPrefix: 'animationstart',
+    webkitPrefix: 'webkitAnimationStart',
+    styleProperty: 'animation',
+  },
+  'animationend': {
+    noPrefix: 'animationend',
+    webkitPrefix: 'webkitAnimationEnd',
+    styleProperty: 'animation',
+  },
+  'animationiteration': {
+    noPrefix: 'animationiteration',
+    webkitPrefix: 'webkitAnimationIteration',
+    styleProperty: 'animation',
+  },
+  'transitionend': {
+    noPrefix: 'transitionend',
+    webkitPrefix: 'webkitTransitionEnd',
+    styleProperty: 'transition',
+  },
+};
+
+/** @const {Object<string, !VendorPropertyMapType>} */
+const cssPropertyMap = {
+  'animation': {
+    noPrefix: 'animation',
+    webkitPrefix: '-webkit-animation',
+  },
+  'transform': {
+    noPrefix: 'transform',
+    webkitPrefix: '-webkit-transform',
+  },
+  'transition': {
+    noPrefix: 'transition',
+    webkitPrefix: '-webkit-transition',
+  },
+};
+
+/**
+ * @param {!Object} windowObj
+ * @return {boolean}
+ */
+function hasProperShape(windowObj) {
+  return (windowObj['document'] !== undefined && typeof windowObj['document']['createElement'] === 'function');
+}
+
+/**
+ * @param {string} eventType
+ * @return {boolean}
+ */
+function eventFoundInMaps(eventType) {
+  return (eventType in eventTypeMap || eventType in cssPropertyMap);
+}
+
+/**
+ * @param {string} eventType
+ * @param {!Object<string, !VendorPropertyMapType>} map
+ * @param {!Element} el
+ * @return {string}
+ */
+function getJavaScriptEventName(eventType, map, el) {
+  return map[eventType].styleProperty in el.style ? map[eventType].noPrefix : map[eventType].webkitPrefix;
+}
+
+/**
+ * Helper function to determine browser prefix for CSS3 animation events
+ * and property names.
+ * @param {!Object} windowObj
+ * @param {string} eventType
+ * @return {string}
+ */
+function getAnimationName(windowObj, eventType) {
+  if (!hasProperShape(windowObj) || !eventFoundInMaps(eventType)) {
+    return eventType;
+  }
+
+  const map = /** @type {!Object<string, !VendorPropertyMapType>} */ (
+    eventType in eventTypeMap ? eventTypeMap : cssPropertyMap
+  );
+  const el = windowObj['document']['createElement']('div');
+  let eventName = '';
+
+  if (map === eventTypeMap) {
+    eventName = getJavaScriptEventName(eventType, map, el);
+  } else {
+    eventName = map[eventType].noPrefix in el.style ? map[eventType].noPrefix : map[eventType].webkitPrefix;
+  }
+
+  return eventName;
+}
+
+// Public functions to access getAnimationName() for JavaScript events or CSS
+// property names.
+
+const transformStyleProperties = ['transform', 'WebkitTransform', 'MozTransform', 'OTransform', 'MSTransform'];
+
+/**
+ * @param {!Object} windowObj
+ * @param {string} eventType
+ * @return {string}
+ */
+function getCorrectEventName(windowObj, eventType) {
+  return getAnimationName(windowObj, eventType);
+}
+
+/**
+ * @param {!Object} windowObj
+ * @param {string} eventType
+ * @return {string}
+ */
+function getCorrectPropertyName(windowObj, eventType) {
+  return getAnimationName(windowObj, eventType);
+}
+
+
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(57);
+
+/***/ }),
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(21);
-var Axios = __webpack_require__(54);
-var defaults = __webpack_require__(9);
+var bind = __webpack_require__(23);
+var Axios = __webpack_require__(59);
+var defaults = __webpack_require__(10);
 
 /**
  * Create an instance of Axios
@@ -48767,15 +49390,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(25);
-axios.CancelToken = __webpack_require__(68);
-axios.isCancel = __webpack_require__(24);
+axios.Cancel = __webpack_require__(27);
+axios.CancelToken = __webpack_require__(73);
+axios.isCancel = __webpack_require__(26);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(69);
+axios.spread = __webpack_require__(74);
 
 module.exports = axios;
 
@@ -48784,7 +49407,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 53 */
+/* 58 */
 /***/ (function(module, exports) {
 
 /*!
@@ -48811,16 +49434,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 54 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(9);
+var defaults = __webpack_require__(10);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(63);
-var dispatchRequest = __webpack_require__(64);
+var InterceptorManager = __webpack_require__(68);
+var dispatchRequest = __webpack_require__(69);
 
 /**
  * Create a new instance of Axios
@@ -48897,7 +49520,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 55 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48916,13 +49539,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 56 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(23);
+var createError = __webpack_require__(25);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -48949,7 +49572,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 57 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48977,7 +49600,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 58 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49050,7 +49673,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 59 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49110,7 +49733,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 60 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49185,7 +49808,7 @@ module.exports = (
 
 
 /***/ }),
-/* 61 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49228,7 +49851,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 62 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49288,7 +49911,7 @@ module.exports = (
 
 
 /***/ }),
-/* 63 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49347,18 +49970,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 64 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(65);
-var isCancel = __webpack_require__(24);
-var defaults = __webpack_require__(9);
-var isAbsoluteURL = __webpack_require__(66);
-var combineURLs = __webpack_require__(67);
+var transformData = __webpack_require__(70);
+var isCancel = __webpack_require__(26);
+var defaults = __webpack_require__(10);
+var isAbsoluteURL = __webpack_require__(71);
+var combineURLs = __webpack_require__(72);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -49440,7 +50063,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 65 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49467,7 +50090,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 66 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49488,7 +50111,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 67 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49509,13 +50132,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 68 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(25);
+var Cancel = __webpack_require__(27);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -49573,7 +50196,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 69 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49607,7 +50230,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 70 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49623,7 +50246,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SpreadsheetRecord = __webpack_require__(71);
+var _SpreadsheetRecord = __webpack_require__(76);
 
 var _SpreadsheetRecord2 = _interopRequireDefault(_SpreadsheetRecord);
 
@@ -49682,7 +50305,7 @@ var Sheet = function (_React$Component) {
 exports.default = Sheet;
 
 /***/ }),
-/* 71 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49698,7 +50321,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lodash = __webpack_require__(17);
+var _lodash = __webpack_require__(18);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
