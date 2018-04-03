@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import accounting from 'accounting';
+import {MDCRipple} from '@material/ripple';
+
 var axios = require('axios');
 
 export default class InputSheetRecord extends React.Component {
@@ -89,12 +91,18 @@ export default class InputSheetRecord extends React.Component {
       });
   }
 
+  componentDidMount(){
+    var el = document.querySelector('.submit-button');
+    const ripple = new MDCRipple(el); 
+  }
+
   render() {
     const days = Array(31).fill().map((k, i) => i + 1);
     var formFieldsStyle = {
       display: 'flex',
       flexDirection: 'column'
     };
+
     return (
       <form onSubmit={e => this.submit(e)} >
         <div style={formFieldsStyle}>
@@ -111,8 +119,8 @@ export default class InputSheetRecord extends React.Component {
           <label>Causale</label>
           <input type="text" value={this.state.causale} onChange={this.handleCausale} />
         </div>
-        <div>
-          <input className="button" type="submit" value="Inserisci" />
+        <div className="submit-button-container">
+          <button ref={node => this.inputElement = node} className="submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" type="submit" >Inserisci</button>
         </div>
       </form>
     );

@@ -1,3 +1,23 @@
+@import "@material/button/mdc-button";
+
+.submit-button-container {
+	margin-top: 20px;
+}
+
+.submit-button {
+    height: 100px;
+    width: 200px;
+}
+
+.mdc-button.secondary-text-button {
+  @include mdc-button-ink-color($mdc-theme-secondary);
+  @include mdc-states(secondary);
+}
+
+.mdc-button.secondary-filled-button {
+  @include mdc-button-filled-accessible($mdc-theme-secondary);
+}
+
 /* Shared */
 .loginBtn {
 	text-decoration: none;
