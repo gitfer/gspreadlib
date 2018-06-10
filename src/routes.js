@@ -328,9 +328,9 @@ router.post('/insertRecord', function(req, res) {
   gspreadlib.listValues({ auth: oauth2Client, spreadsheetId, sheetName })
     .then(values => {
       console.log('insertRecord values', values);
-      if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
-        return res.status(400).send('An item with same date and value already exists');
-      }
+      // if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
+      //   return res.status(400).send('An item with same date and value already exists');
+      // }
       return gspreadlib.insertRecord({ auth: oauth2Client, spreadsheetId, sheetName: sheetName, values: [[data, valoreStringa, causale]] })
         .then(() => {
           console.log('Now sorting...');
