@@ -10,7 +10,9 @@ export default class SpreadsheetRecord extends React.Component {
       'bancomat': '#2cff36',
       'telepass': '#faff2d',
       'bollette': '#9e58ff',
-      'eir': '#fc9507'
+      'bolletta': '#9e58ff',
+      'eir': '#fc9507',
+      'internet': '#fc9507'
     };
     const matchesColor = (causale, value) => _.includes(causale.toLowerCase(), value.toLowerCase());
     if (!_.isNil(causale)) {
