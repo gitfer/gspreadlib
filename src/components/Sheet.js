@@ -21,7 +21,7 @@ export default class Sheet extends React.Component {
       <div>
         <div>
           {
-            records.map((record, index) => (<SpreadsheetRecord key={record.data + record.valore} sheetId={this.props.sheet.properties.sheetId} index={index} record={record}></SpreadsheetRecord>))
+            records.map((record, index) => (<SpreadsheetRecord key={record.data + record.valore + record.causale} sheetId={this.props.sheet.properties.sheetId} index={index} record={record}></SpreadsheetRecord>))
           }
         </div>
       </div>
