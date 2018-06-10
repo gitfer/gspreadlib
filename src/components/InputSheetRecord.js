@@ -1,13 +1,13 @@
+/* global alert */
 import React from 'react';
 import _ from 'lodash';
 import accounting from 'accounting';
-import {MDCRipple} from '@material/ripple';
-import {MDCSnackbar, MDCSnackbarFoundation} from '@material/snackbar';
+// import {MDCRipple} from '@material/ripple';
+import {MDCSnackbar} from '@material/snackbar';
 
 var axios = require('axios');
 
 export default class InputSheetRecord extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ export default class InputSheetRecord extends React.Component {
   }
 
   openToaster(msg) {
-    if(this.snackbar !== undefined){
+    if (this.snackbar !== undefined) {
       this.snackbar.show({
         message: msg
       });
@@ -91,28 +91,20 @@ export default class InputSheetRecord extends React.Component {
       valore,
       causale
     })
-    .then(function(res) {
-      console.log('post OK', res);
-      that.props.onValueInserted({data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale});
-      that.openToaster(res.data.data + " " +res.data.valoreStringa + " " + res.data.causale);
-    })
-    .catch(function(err) {
-      console.log(err.response.data);
-      that.openToaster('Error: ' + err.response.data);
-    });
+      .then(function(res) {
+        console.log('post OK', res);
+        that.props.onValueInserted({data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale});
+        that.openToaster(res.data.data + ' ' + res.data.valoreStringa + ' ' + res.data.causale);
+      })
+      .catch(function(err) {
+        console.log(err.response.data);
+        that.openToaster('Error: ' + err.response.data);
+      });
   }
 
-  openToaster(msg) {
-    const dataObj = {
-      message: msg
-    };
-
-    this.snackbar.show(dataObj);
-  }
-
-  componentDidMount(){
-    var el = document.querySelector('.submit-button');
-    const ripple = new MDCRipple(el); 
+  componentDidMount() {
+    // var el = document.querySelector('.submit-button');
+    // const ripple = new MDCRipple(el);
 
     this.snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
   }
@@ -126,35 +118,35 @@ export default class InputSheetRecord extends React.Component {
 
     return (
       <div>
-      <form onSubmit={e => this.submit(e)} >
-        <div style={formFieldsStyle}>
-          <label>Giorno</label>
-          <div>
-            <select value={this.state.data} onChange={this.handleData} >
-              {
-                days.map(day => (<option key={day} value={day}>{day}</option>))
-              }
-            </select>
+        <form onSubmit={e => this.submit(e)} >
+          <div style={formFieldsStyle}>
+            <label>Giorno</label>
+            <div>
+              <select value={this.state.data} onChange={this.handleData} >
+                {
+                  days.map(day => (<option key={day} value={day}>{day}</option>))
+                }
+              </select>
+            </div>
+            <label>Valore</label>
+            <input type="number" min="0" step="0.01" value={this.state.valore} onChange={this.handleValore} />
+            <label>Causale</label>
+            <input type="text" value={this.state.causale} onChange={this.handleCausale} />
           </div>
-          <label>Valore</label>
-          <input type="number" min="0" step="0.01" value={this.state.valore} onChange={this.handleValore} />
-          <label>Causale</label>
-          <input type="text" value={this.state.causale} onChange={this.handleCausale} />
-        </div>
-        <div className="submit-button-container">
-          <button ref={node => this.inputElement = node} className="submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" type="submit" >Inserisci</button>
-        </div>
-      </form>
-          <div className="mdc-snackbar"
-         aria-live="assertive"
-         aria-atomic="true"
-         aria-hidden="true">
+          <div className="submit-button-container">
+            <button ref={node => { this.inputElement = node; }} className="submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation" type="submit" >Inserisci</button>
+          </div>
+        </form>
+        <div className="mdc-snackbar"
+          aria-live="assertive"
+          aria-atomic="true"
+          aria-hidden="true">
           <div className="mdc-snackbar__text"></div>
           <div className="mdc-snackbar__action-wrapper">
             <button type="button" className="mdc-snackbar__action-button"></button>
           </div>
         </div>
-        </div>
+      </div>
     );
   }
 }
