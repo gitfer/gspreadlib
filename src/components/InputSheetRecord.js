@@ -81,7 +81,6 @@ export default class InputSheetRecord extends React.Component {
     var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ',');
     if (_.some(this.props.records, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
       alert('Esiste già un valore con quella data e quel valore');
-      return;
     }
     let that = this;
     axios.post('/insertRecord/', {
