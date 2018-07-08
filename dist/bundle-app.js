@@ -46970,7 +46970,12 @@ var InputSheetRecord = function (_React$Component) {
     value: function openToaster(msg) {
       if (this.snackbar !== undefined) {
         this.snackbar.show({
-          message: msg
+          message: msg,
+          timeout: 5000,
+          actionText: 'X',
+          actionHandler: function actionHandler() {
+            console.log('Closing manually');
+          }
         });
       }
     }
@@ -46984,18 +46989,18 @@ var InputSheetRecord = function (_React$Component) {
       var year = sheetTitle.slice(-4);
       var monthString = sheetTitle.slice(0, sheetTitle.length - 4);
       var monthsMap = {
-        'Gennaio': '01',
-        'Febbraio': '02',
-        'Marzo': '03',
-        'Aprile': '04',
-        'Maggio': '05',
-        'Giugno': '06',
-        'Luglio': '07',
-        'Agosto': '08',
-        'Settembre': '09',
-        'Ottobre': '10',
-        'Novembre': '11',
-        'Dicembre': '12'
+        Gennaio: '01',
+        Febbraio: '02',
+        Marzo: '03',
+        Aprile: '04',
+        Maggio: '05',
+        Giugno: '06',
+        Luglio: '07',
+        Agosto: '08',
+        Settembre: '09',
+        Ottobre: '10',
+        Novembre: '11',
+        Dicembre: '12'
       };
       var data = ('0' + this.state.data).slice(-2) + '/' + monthsMap[monthString] + '/' + year;
 
@@ -47025,7 +47030,11 @@ var InputSheetRecord = function (_React$Component) {
         causale: causale
       }).then(function (res) {
         console.log('post OK', res);
-        that.props.onValueInserted({ data: res.data.data, valore: res.data.valoreStringa, causale: res.data.causale });
+        that.props.onValueInserted({
+          data: res.data.data,
+          valore: res.data.valoreStringa,
+          causale: res.data.causale
+        });
         that.openToaster(res.data.data + ' ' + res.data.valoreStringa + ' ' + res.data.causale);
       }).catch(function (err) {
         console.log(err.response.data);
@@ -47089,32 +47098,48 @@ var InputSheetRecord = function (_React$Component) {
               null,
               'Valore'
             ),
-            _react2.default.createElement('input', { type: 'number', min: '0', step: '0.01', value: this.state.valore, onChange: this.handleValore }),
+            _react2.default.createElement('input', {
+              type: 'number',
+              min: '0',
+              step: '0.01',
+              value: this.state.valore,
+              onChange: this.handleValore
+            }),
             _react2.default.createElement(
               'label',
               null,
               'Causale'
             ),
-            _react2.default.createElement('input', { type: 'text', value: this.state.causale, onChange: this.handleCausale })
+            _react2.default.createElement('input', {
+              type: 'text',
+              value: this.state.causale,
+              onChange: this.handleCausale
+            })
           ),
           _react2.default.createElement(
             'div',
             { className: 'submit-button-container' },
             _react2.default.createElement(
               'button',
-              { ref: function ref(node) {
+              {
+                ref: function ref(node) {
                   _this2.inputElement = node;
-                }, className: 'submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation', type: 'submit' },
+                },
+                className: 'submit-button mdc-button mdc-button--raised secondary-filled-button mdc-ripple-upgraded mdc-ripple-upgraded--foreground-activation',
+                type: 'submit'
+              },
               'Inserisci'
             )
           )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'mdc-snackbar',
+          {
+            className: 'mdc-snackbar',
             'aria-live': 'assertive',
             'aria-atomic': 'true',
-            'aria-hidden': 'true' },
+            'aria-hidden': 'true'
+          },
           _react2.default.createElement('div', { className: 'mdc-snackbar__text' }),
           _react2.default.createElement(
             'div',
