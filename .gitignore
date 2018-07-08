@@ -4,4 +4,3 @@ token_dir/
 *.sublime-project
 *.sublime-workspace
 lib/
-dist/
