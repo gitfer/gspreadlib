@@ -72,9 +72,6 @@ passport.use(
           name: profile.name
         });
       }
-      // User.findOrCreate({ googleId: profile.id }, function(err, user) {
-      //   return done(err, user);
-      // });
     }
   )
 );
@@ -106,12 +103,14 @@ var getNewToken = function(oauth2Client) {
   return authUrl;
 };
 
-var authorize = function(clientSecretData, spreadsheetId, credentials) {
-  var clientSecret = clientSecretData.installed.client_secret;
-  var clientId = clientSecretData.installed.client_id;
-  var redirectUrl = clientSecretData.installed.redirect_uris[0];
+var authorize = function({ clientSecret, spreadsheetId, credentials }) {
+  var {
+    client_secret: secret,
+    client_id: clientId,
+    redirect_uris: redirectUrls
+  } = clientSecret.installed;
   var auth = new GoogleAuth();
-  oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+  oauth2Client = new auth.OAuth2(clientId, secret, redirectUrls[0]);
 
   if (_.isNil(credentials)) {
     console.log('no credentials');
@@ -120,7 +119,7 @@ var authorize = function(clientSecretData, spreadsheetId, credentials) {
     return Promise.resolve(authUrl);
   }
   oauth2Client.credentials = credentials;
-  console.log('calling callback..."');
+  console.log('calling callback...with credentials', credentials);
   return gspreadlib.listValues({ auth: oauth2Client, spreadsheetId });
 };
 
@@ -128,7 +127,7 @@ const getRedirectUrl = (credentials, loggedinUrl) => {
   clientSecret.installed.redirect_uris = [loggedinUrl];
   console.log('credentials', credentials);
   console.log('clientSecret', JSON.stringify(clientSecret));
-  return authorize(clientSecret, spreadsheetId, credentials);
+  return authorize({ clientSecret, spreadsheetId, credentials });
 };
 
 var storeToken = function(token) {
@@ -198,21 +197,33 @@ router.get('/list', ensureAuthenticated, function(req, res, next) {
     .catch(err => console.log(err));
 });
 
-router.get('/spreadsheets', ensureAuthenticated, function(req, res, next) {
+const getSpreadSheets = function(res) {
   return Promise.all([
-    gspreadlib.getSpreadSheet({ auth: oauth2Client, spreadsheetId, ranges: [] }),
+    gspreadlib.getSpreadSheet({
+      auth: oauth2Client,
+      spreadsheetId,
+      ranges: []
+    }),
     gspreadlib.listValues({ auth: oauth2Client, spreadsheetId })
-  ])
-    .then(([spreadsheet, values]) => {
-      res.send({
-        spreadsheet: spreadsheet,
-        values: values
-      });
+  ]).then(([spreadsheet, values]) => {
+    res.send({
+      spreadsheet: spreadsheet,
+      values: values
     });
-});
+  });
+};
+
+router.get('/spreadsheets', ensureAuthenticated, (req, res, next) =>
+  getSpreadSheets(res)
+);
 
 router.get('/sheets/:sheetName', ensureAuthenticated, function(req, res, next) {
-  return gspreadlib.listValues({ auth: oauth2Client, spreadsheetId, sheetName: req.params.sheetName })
+  return gspreadlib
+    .listValues({
+      auth: oauth2Client,
+      spreadsheetId,
+      sheetName: req.params.sheetName
+    })
     .then(values => {
       res.send({
         values: values
@@ -225,9 +236,7 @@ router.get('/profile', ensureAuthenticated, function(req, res) {
   res.send({ user: req.user });
 });
 
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
+router.get('/', (req, res, next) => res.render('index'));
 
 router.get('/loggedin', function(req, res, next) {
   let code = req.query.code;
@@ -269,30 +278,6 @@ router.get('/loggedin', function(req, res, next) {
   });
 });
 
-/* router.get('/insertValues/:sheetId/rowIndex/:startRowIndex', function(
-  req,
-  res,
-  next
-) {
-  let tokenData = getToken();
-  getRedirectUrl(JSON.parse(tokenData), '').then(data => {
-    console.log('req.params.sheetId', parseInt(req.params.sheetId));
-    console.log(
-      'req.params.startRowIndex',
-      parseInt(req.params.startRowIndex) + 2
-    );
-    gspreadlib
-      .insertRow({
-        auth: oauth2Client,
-        spreadsheetId,
-        sheetId: parseInt(req.params.sheetId),
-        startRowIndex: parseInt(req.params.startRowIndex) + 3
-      })
-      .then(() => res.redirect('back'))
-      .catch(err => console.log(err));
-  });
-});
-*/
 router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
   req,
   res,
@@ -317,33 +302,62 @@ router.get('/delete/:sheetId/rowIndex/:startRowIndex', function(
   });
 });
 
+const insertRecord = async function(
+  sheetName,
+  data,
+  valoreStringa,
+  causale,
+  sheetId,
+  res
+) {
+  try {
+    await gspreadlib.insertRecord({
+      auth: oauth2Client,
+      spreadsheetId,
+      sheetName,
+      values: [[data, valoreStringa, causale]]
+    });
+    console.log('Now sorting...');
+    const response = await gspreadlib.sort({
+      auth: oauth2Client,
+      spreadsheetId,
+      sheetId: parseInt(sheetId)
+    });
+    console.log('Now returning 200...', response);
+    res.status(200).send({ data, valoreStringa, causale });
+  } catch (err) {
+    console.log('Now returning error...', err);
+    res.status(400).send(err);
+  }
+};
+
 router.post('/insertRecord', function(req, res) {
-  var sheetName = req.body.sheetName;
-  var sheetId = req.body.sheetId;
-  var data = req.body.data;
-  var valore = req.body.valore;
-  var causale = req.body.causale;
-  var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ','); ;
-  console.log('insertRecord', sheetName, sheetId, sheetName, data, valoreStringa, causale);
-  gspreadlib.listValues({ auth: oauth2Client, spreadsheetId, sheetName })
+  var { sheetName, sheetId, data, valore, causale } = req.body;
+  var valoreStringa = accounting.formatMoney(valore, '€ ', 2, '.', ',');
+  console.log(
+    'insertRecord',
+    sheetName,
+    sheetId,
+    sheetName,
+    data,
+    valoreStringa,
+    causale
+  );
+  gspreadlib
+    .listValues({ auth: oauth2Client, spreadsheetId, sheetName })
     .then(values => {
       console.log('insertRecord values', values);
       // if (_.some(values, value => value.data.toString() === data.toString() && value.valore === valoreStringa)) {
       //   return res.status(400).send('An item with same date and value already exists');
       // }
-      return gspreadlib.insertRecord({ auth: oauth2Client, spreadsheetId, sheetName: sheetName, values: [[data, valoreStringa, causale]] })
-        .then(() => {
-          console.log('Now sorting...');
-          return gspreadlib.sort({ auth: oauth2Client, spreadsheetId, sheetId: parseInt(sheetId) });
-        })
-        .then((response) => {
-          console.log('Now returning 200...', response);
-          res.status(200).send({data, valoreStringa, causale});
-        })
-        .catch(err => {
-          console.log('Now returning error...', err);
-          res.status(400).send(err);
-        });
+      return insertRecord(
+        sheetName,
+        data,
+        valoreStringa,
+        causale,
+        sheetId,
+        res
+      );
     });
 });
 module.exports = router;

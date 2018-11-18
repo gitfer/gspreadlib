@@ -41,20 +41,15 @@ const listValues = ({
       function(err, response) {
         console.log('call errors: ', err);
         if (err) {
-          reject(new Error('The API returned an error: ' + err));
+          return reject(new Error('The API returned an error: ' + err));
         }
+
         var rows = response.values;
         if (rows.length === 0) {
           console.log('No data found.');
-          resolve([]);
+          return resolve([]);
         } else {
           console.log('Data found:', rows);
-          for (var i = 0; i < rows.length; i++) {
-            var row = rows[i];
-
-            // console.log('%s, %s, %s', row[0], row[1], row[2]);
-          }
-
           rows = rows.map(row => ({
             data: row[0],
             valore: row[1],
@@ -170,11 +165,7 @@ const insertRecord = ({
     );
   });
 
-const sort = ({
-  auth,
-  spreadsheetId,
-  sheetId
-}) =>
+const sort = ({ auth, spreadsheetId, sheetId }) =>
   new Promise((resolve, reject) => {
     sheets.spreadsheets.batchUpdate(
       {
