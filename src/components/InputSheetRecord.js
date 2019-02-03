@@ -181,6 +181,9 @@ export default class InputSheetRecord extends React.Component {
               Inserisci
             </button>
           </div>
+          <div style={{ marginTop: '1em' }}>
+            <strong>Total {this.props.total}</strong>
+          </div>
         </form>
         <div
           className="mdc-snackbar"

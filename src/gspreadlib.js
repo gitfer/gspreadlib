@@ -43,20 +43,44 @@ const listValues = ({
         if (err) {
           return reject(new Error('The API returned an error: ' + err));
         }
-
+        var values = [];
         var rows = response.values;
         if (rows.length === 0) {
           console.log('No data found.');
-          return resolve([]);
+          values = [];
         } else {
           console.log('Data found:', rows);
-          rows = rows.map(row => ({
+          values = rows.map(row => ({
             data: row[0],
             valore: row[1],
             causale: row[2]
           }));
-          return resolve(rows);
         }
+        sheets.spreadsheets.values.get(
+          {
+            auth: auth,
+            spreadsheetId: spreadsheetId,
+            range: sheetName === '' ? 'D8:D8' : sheetName + '!D8:D8',
+            majorDimension: majorDimension
+          },
+          function(err, response) {
+            console.log('call errors: ', err);
+            if (err) {
+              return reject(new Error('The API returned an error: ' + err));
+            }
+
+            var total = 0;
+            var rowsTotal = response.values;
+            if (rowsTotal === undefined || rowsTotal.length === 0) {
+              console.log('No data found.');
+              return resolve({ values, total });
+            } else {
+              console.log('Data found:', rowsTotal);
+              total = rowsTotal[0][0];
+              return resolve({ values, total });
+            }
+          }
+        );
       }
     );
   });

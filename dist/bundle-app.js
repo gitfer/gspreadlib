@@ -46690,7 +46690,7 @@ exports.default = Profile;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -46726,7 +46726,7 @@ var Spreadsheet = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Spreadsheet.__proto__ || Object.getPrototypeOf(Spreadsheet)).call(this, props));
 
-    _this.state = { selectedSheet: { properties: { sheetId: '' } } };
+    _this.state = { selectedSheet: { properties: { sheetId: '' } }, total: 0 };
     _this.handleChangeSheet = _this.handleChangeSheet.bind(_this);
     return _this;
   }
@@ -46734,14 +46734,23 @@ var Spreadsheet = function (_React$Component) {
   _createClass(Spreadsheet, [{
     key: 'handleChangeSheet',
     value: function handleChangeSheet(e) {
+      var that = this;
       var val = this.props.sheets.find(function (s) {
         return parseInt(s.properties.sheetId) === parseInt(e.target.value);
       });
-      this.setState({ selectedSheet: val });
+      this.GetSheetData(val.properties.title, function (data) {
+        that.setState({ selectedSheet: val, total: data.values.total });
+      });
+    }
+  }, {
+    key: 'GetSheetData',
+    value: function GetSheetData(sheetId, cb) {
+      $.getJSON('/sheets/' + sheetId, cb);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      var that = this;
       if (nextProps.sheets.length > 0) {
         console.log('newProps.sheets', nextProps.sheets);
         var currentMonth = new Date().getMonth();
@@ -46764,7 +46773,9 @@ var Spreadsheet = function (_React$Component) {
         }) ? _lodash2.default.find(nextProps.sheets, function (s) {
           return s.properties.title === monthsMapping[currentMonth] + new Date().getFullYear();
         }) : nextProps.sheets[0];
-        this.setState({ selectedSheet: val });
+        this.GetSheetData(val.properties.title, function (data) {
+          that.setState({ selectedSheet: val, total: data.values.total });
+        });
       }
     }
   }, {
@@ -46780,6 +46791,12 @@ var Spreadsheet = function (_React$Component) {
           'h2',
           null,
           spreadsheetTitle
+        ),
+        _react2.default.createElement(
+          'strong',
+          null,
+          'Total: ',
+          this.state.total
         ),
         _react2.default.createElement(
           'div',
@@ -46811,6 +46828,7 @@ var Spreadsheet = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Spreadsheet;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 41 */
@@ -46911,7 +46929,8 @@ var SheetRecordsRetriever = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SheetRecordsRetriever.__proto__ || Object.getPrototypeOf(SheetRecordsRetriever)).call(this, props));
 
     _this.state = {
-      records: []
+      records: [],
+      total: 0
     };
 
     _this.handleValueInserted = _this.handleValueInserted.bind(_this);
@@ -46924,7 +46943,10 @@ var SheetRecordsRetriever = function (_React$Component) {
       var that = this;
       if (nextProps.sheet !== this.props.sheet) {
         that.GetSheetData(nextProps.sheet.properties.title, function (data) {
-          that.setState({ records: data.values });
+          that.setState({
+            records: data.values.values,
+            total: data.values.total
+          });
         });
       }
     }
@@ -46954,7 +46976,12 @@ var SheetRecordsRetriever = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_InputSheetRecord2.default, { sheet: selectedSheet, records: this.state.records, onValueInserted: this.handleValueInserted }),
+        _react2.default.createElement(_InputSheetRecord2.default, {
+          sheet: selectedSheet,
+          records: this.state.records,
+          onValueInserted: this.handleValueInserted,
+          total: this.state.total
+        }),
         _react2.default.createElement('p', null),
         _react2.default.createElement(
           'div',
@@ -47212,6 +47239,16 @@ var InputSheetRecord = function (_React$Component) {
                 type: 'submit'
               },
               'Inserisci'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { marginTop: '1em' } },
+            _react2.default.createElement(
+              'strong',
+              null,
+              'Total ',
+              this.props.total
             )
           )
         ),
@@ -49267,7 +49304,10 @@ var Sheet = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Sheet.__proto__ || Object.getPrototypeOf(Sheet)).call(this, props));
 
-    _this.state = { sheet: _this.props.sheet, records: _this.props.records };
+    _this.state = {
+      sheet: _this.props.sheet,
+      records: _this.props.records
+    };
     return _this;
   }
 
@@ -49285,17 +49325,17 @@ var Sheet = function (_React$Component) {
       var _this2 = this;
 
       var records = this.props.records;
-
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'div',
-          null,
-          records.map(function (record, index) {
-            return _react2.default.createElement(_SpreadsheetRecord2.default, { key: record.data + record.valore + record.causale, sheetId: _this2.props.sheet.properties.sheetId, index: index, record: record });
-          })
-        )
+        records.map(function (record, index) {
+          return _react2.default.createElement(_SpreadsheetRecord2.default, {
+            key: record.data + record.valore + record.causale,
+            sheetId: _this2.props.sheet.properties.sheetId,
+            index: index,
+            record: record
+          });
+        })
       );
     }
   }]);

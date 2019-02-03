@@ -5,18 +5,26 @@ import SheetRecordsRetriever from './SheetRecordsRetriever';
 export default class Spreadsheet extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedSheet: { properties: { sheetId: '' } } };
+    this.state = { selectedSheet: { properties: { sheetId: '' } }, total: 0 };
     this.handleChangeSheet = this.handleChangeSheet.bind(this);
   }
 
   handleChangeSheet(e) {
+    var that = this;
     let val = this.props.sheets.find(
       s => parseInt(s.properties.sheetId) === parseInt(e.target.value)
     );
-    this.setState({ selectedSheet: val });
+    this.GetSheetData(val.properties.title, function(data) {
+      that.setState({ selectedSheet: val, total: data.values.total });
+    });
+  }
+
+  GetSheetData(sheetId, cb) {
+    $.getJSON('/sheets/' + sheetId, cb);
   }
 
   componentWillReceiveProps(nextProps) {
+    var that = this;
     if (nextProps.sheets.length > 0) {
       console.log('newProps.sheets', nextProps.sheets);
       let currentMonth = new Date().getMonth();
@@ -47,7 +55,9 @@ export default class Spreadsheet extends React.Component {
               monthsMapping[currentMonth] + new Date().getFullYear()
         )
         : nextProps.sheets[0];
-      this.setState({ selectedSheet: val });
+      this.GetSheetData(val.properties.title, function(data) {
+        that.setState({ selectedSheet: val, total: data.values.total });
+      });
     }
   }
 
@@ -58,6 +68,7 @@ export default class Spreadsheet extends React.Component {
     return (
       <div>
         <h2>{spreadsheetTitle}</h2>
+        <strong>Total: {this.state.total}</strong>
         <div>
           <select
             value={this.state.selectedSheet.properties.sheetId}
